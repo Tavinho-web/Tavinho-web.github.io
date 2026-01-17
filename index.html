@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Para ti ✨</title>
   <style>
   :root{
@@ -224,6 +224,41 @@
     font-size: 14px;
     white-space: pre-wrap;
   }
+
+  /* Mejor responsive del modal (especialmente en celular) */
+  .modal{
+    padding:
+      calc(18px + env(safe-area-inset-top))
+      calc(18px + env(safe-area-inset-right))
+      calc(18px + env(safe-area-inset-bottom))
+      calc(18px + env(safe-area-inset-left));
+  }
+
+  .panel{
+    max-height: 92vh;           /* evita que el modal se "salga" de la pantalla */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panelBody{
+    flex: 1;
+    overflow: hidden;           /* el scroll lo maneja la caption */
+  }
+
+  .caption{
+    overflow: auto;             /* permite leer textos largos en móvil */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* En pantallas pequeñas: imagen más baja + texto scrolleable */
+  @media (max-width: 520px){
+    .big img{
+      max-height: 42vh;         /* antes 72vh */
+    }
+    .caption p{
+      font-size: 13px;          /* un pelín más compacto en cel */
+    }
+  }
   </style>
 </head>
 <body>
@@ -251,7 +286,7 @@
         <img src="img/imagen3.jpg" alt="Foto 3" loading="lazy">
         <span class="badge">3</span>
       </button>
-      <button class="tile" data-index="3" data-title="El primer 2pa2 con tus papas" data-text="La primera salida con tus papás me dejó un recuerdo muy bonito. Pensé que me iba a sentir nervioso, pero terminé sintiéndome en confianza y disfrutando el momento. Me gustó estar ahí, conocerlos y sentir que podía ser yo. unque hubo un momento incómodo, lo que más me quedó fue esto: contigo todo se siente más tranquilo, como si incluso lo raro pasara rápido porque estamos juntos en el mismo equipo.">
+      <button class="tile" data-index="3" data-title="El primer 2pa2 con tus papas" data-text="La primera salida con tus papás me dejó un recuerdo muy bonito. Pensé que me iba a sentir nervioso, pero terminé sintiéndome en confianza y disfrutando el momento. Me gustó estar ahí, conocerlos y sentir que podía ser yo. aunque hubo un momento incómodo, lo que más me quedó fue esto: contigo todo se siente más tranquilo, como si incluso lo raro pasara rápido porque estamos juntos en el mismo equipo.">
         <img src="img/imagen4.jpg" alt="Foto 4" loading="lazy">
         <span class="badge">4</span>
       </button>
@@ -359,4 +394,3 @@
   </script>
 </body>
 </html>
-
