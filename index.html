@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Bienvenida 💛</title>
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Bienvenida a tu página, Taly 🌹</h1>
+      <p class="sub">Escribe el código para entrar al álbum ✨</p>
+
+      <form id="loginForm" class="form">
+        <input
+          id="code"
+          type="password"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="••••••"
+          maxlength="6"
+          required
+        />
+        <button type="submit">Entrar</button>
+      </form>
+
+      <p id="msg" class="msg"></p>
+
+      <p class="hint">Pista: una fecha especial 🐶💛</p>
+    </div>
+  </div>
+
+  <script src="welcome.js"></script>
+</body>
+</html>
