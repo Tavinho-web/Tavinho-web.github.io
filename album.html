@@ -8,6 +8,14 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
+  <script>
+    (function(){
+      if (localStorage.getItem("taly_access") !== "ok") {
+        location.replace("index.html");
+      }
+    })();
+  </script>
+
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <canvas id="confettiCanvas" aria-hidden="true"></canvas>
   <div class="wrap">
@@ -16,7 +24,8 @@
         <h1>Un álbum para ti 💛</h1>
         <p class="sub">12 recuerdos contigo. Toca una foto para leer lo que sentí ese día.</p>
       </div>
-      <div style="color:rgba(255,255,255,.55);font-size:12px;">— de mí para ti</div>
+
+      <button class="logout" id="logoutBtn" type="button">Cerrar sesión</button>
     </header>
 
     <main class="grid" aria-label="Álbum de 12 fotos">
@@ -115,4 +124,3 @@
   <script src="confetti.js"></script>
 </body>
 </html>
-
