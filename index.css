@@ -377,3 +377,26 @@ body::after{
   z-index: 999;
   pointer-events: none;
 }
+
+.logout{
+  border:none;
+  cursor:pointer;
+  color: var(--text);
+  background: rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  transition: transform .15s ease, background .15s ease;
+  white-space: nowrap;
+}
+.logout:hover{ background: rgba(255,255,255,.16); transform: translateY(-1px); }
+.logout:active{ transform: translateY(0); }
+
+/* En celular: que no se rompa el header */
+@media (max-width: 520px){
+  header{
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
