@@ -41,15 +41,19 @@
     window.matchMedia && window.matchMedia("(max-width: 520px)").matches;
 
   const COLORS = ["#ff4fd8", "#7c5cff", "#22d3ee", "#34d399", "#fbbf24", "#ffffff"];
-  const COUNT = isMobile ? 110 : 160;
+  const COUNT = isMobile ? 240 : 180;
+  const duration = 2200;
 
   const rand = (a, b) => Math.random() * (b - a) + a;
 
+  const originX = W * 0.5;
+  const originY = -20;
+
   const pieces = Array.from({ length: COUNT }, () => ({
-    x: rand(0, W),
-    y: rand(-H * 0.4, -20),
-    w: rand(6, 10),
-    h: rand(10, 16),
+    x: originX + rand(-W * 0.35, W * 0.35),
+    y: originY + rand(-60, 20),
+    w: rand(isMobile ? 10 : 8, isMobile ? 16 : 12),
+    h: rand(isMobile ? 14 : 10, isMobile ? 22 : 16),
     vx: rand(-1.2, 1.2),
     vy: rand(2.6, 5.4),
     rot: rand(0, Math.PI * 2),
@@ -59,7 +63,6 @@
   }));
 
   const start = performance.now();
-  const duration = 1400; // ms
 
   function tick(t) {
     const elapsed = t - start;
@@ -77,7 +80,9 @@
       if (p.x > W + 30) p.x = -30;
 
       ctx.save();
-      ctx.globalAlpha = p.alpha * (1 - k * 0.6); // fade suave
+      ctx.globalAlpha = p.alpha * (1 - k * 0.6);
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 8;
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rot);
       ctx.fillStyle = p.color;
@@ -96,3 +101,4 @@
 
   requestAnimationFrame(tick);
 })();
+
