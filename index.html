@@ -138,12 +138,13 @@
   .badge{
     position:absolute; left:10px; bottom:10px;
     font-size:12px; font-weight:700;
-    color:rgba(10,10,20,.9);
+    color: rgba(255,255,255,.92);
     background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
     border:1px solid rgba(255,255,255,.20);
     padding:7px 10px; border-radius: 999px;
     z-index:2;
     box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    text-shadow: 0 6px 18px rgba(0,0,0,.35);
   }
 
   footer{
@@ -219,10 +220,11 @@
   }
   .caption p{
     margin:0;
-    color: rgba(255,255,255,.78);
-    line-height: 1.55;
+    color: rgba(255,255,255,.82);
+    line-height: 1.65;
     font-size: 14px;
     white-space: pre-wrap;
+    text-wrap: pretty;
   }
 
   /* Mejor responsive del modal (especialmente en celular) */
@@ -259,14 +261,110 @@
       font-size: 13px;          /* un pelín más compacto en cel */
     }
   }
+
+  /* Animaciones suaves */
+  @keyframes popIn {
+    from { transform: translateY(8px) scale(.98); opacity: 0; }
+    to   { transform: translateY(0)   scale(1);   opacity: 1; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .modal{ animation: fadeIn .18s ease; }
+  .panel{ animation: popIn .22s ease; }
+
+  @media (prefers-reduced-motion: reduce){
+    .modal, .panel, .tile{ animation:none !important; transition:none !important; }
+  }
+
+  /* Botones de navegación */
+  .navBtns{
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .navBtn{
+    border:none;
+    cursor:pointer;
+    color: var(--text);
+    background: rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.14);
+    padding: 8px 10px;
+    border-radius: 12px;
+    transition: transform .15s ease, background .15s ease;
+    font-size: 14px;
+  }
+  .navBtn:hover{ background: rgba(255,255,255,.16); transform: translateY(-1px); }
+  .navBtn:active{ transform: translateY(0); }
+
+  /* ===== Fondo en movimiento (suave) ===== */
+
+  /* Mueve ligeramente los gradientes del fondo */
+  body{
+    background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    animation: bgMove 18s ease-in-out infinite;
+  }
+
+  @keyframes bgMove{
+    0%{
+      background-position: 15% 10%, 95% 5%, 70% 95%, 0 0;
+    }
+    50%{
+      background-position: 10% 18%, 88% 12%, 62% 88%, 0 0;
+    }
+    100%{
+      background-position: 15% 10%, 95% 5%, 70% 95%, 0 0;
+    }
+  }
+
+  /* Anima las "burbujas" que ya tienes */
+  body::before{
+    animation: blobA 14s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  body::after{
+    animation: blobB 17s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes blobA{
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(40px,-30px) scale(1.06); }
+    100% { transform: translate(-10px,10px) scale(1.02); }
+  }
+  @keyframes blobB{
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(-35px,25px) scale(1.07); }
+    100% { transform: translate(10px,-10px) scale(1.03); }
+  }
+
+  /* Respeta accesibilidad: si el usuario prefiere menos movimiento */
+  @media (prefers-reduced-motion: reduce){
+    body{ animation: none; }
+    body::before, body::after{ animation: none; }
+  }
+
+  /* Canvas de fondo animado */
+  #bgCanvas{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;          /* detrás de todo */
+    pointer-events: none; /* no bloquea clicks */
+    opacity: .9;
+  }
   </style>
 </head>
 <body>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <div class="wrap">
     <header>
       <div>
         <h1>Un álbum para ti 💛</h1>
-        <p class="sub">12 recuerdos. Toca una foto para ver la frase.</p>
+        <p class="sub">12 recuerdos contigo. Toca una foto para leer lo que sentí ese día.</p>
       </div>
       <div style="color:rgba(255,255,255,.55);font-size:12px;">— de mí para ti</div>
     </header>
@@ -332,7 +430,11 @@
     <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
       <div class="panelTop">
         <div class="hint">Toca afuera o presiona Esc para cerrar</div>
-        <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
+        <div class="navBtns">
+          <button class="navBtn" id="prevBtn" aria-label="Anterior">←</button>
+          <button class="navBtn" id="nextBtn" aria-label="Siguiente">→</button>
+          <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
+        </div>
       </div>
       <div class="panelBody">
         <div class="big">
@@ -353,16 +455,24 @@
     const mImg = document.getElementById("mImg");
     const mTitle = document.getElementById("mTitle");
     const mText = document.getElementById("mText");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
 
     let lastFocused = null;
+    let currentIndex = 0;
 
-    function openModal(tile){
-      lastFocused = document.activeElement;
+    function renderFromTile(tile){
       const img = tile.querySelector("img");
       mImg.src = img.src;
       mImg.alt = img.alt;
       mTitle.textContent = tile.dataset.title || "Recuerdo";
       mText.textContent = tile.dataset.text || "";
+    }
+
+    function openModal(tile){
+      lastFocused = document.activeElement;
+      currentIndex = Number(tile.dataset.index || 0);
+      renderFromTile(tile);
       modal.hidden = false;
 
       // mover foco al botón cerrar (accesibilidad)
@@ -387,10 +497,150 @@
       if (e.target === modal) closeModal();
     });
 
-    // Cerrar con Escape
+    function go(delta){
+      currentIndex = (currentIndex + delta + tiles.length) % tiles.length;
+      renderFromTile(tiles[currentIndex]);
+    }
+
+    prevBtn.addEventListener("click", () => go(-1));
+    nextBtn.addEventListener("click", () => go(1));
+
+    // Cerrar con Escape, navegar con flechas
     document.addEventListener("keydown", (e) => {
-      if (!modal.hidden && e.key === "Escape") closeModal();
+      if (modal.hidden) return;
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "ArrowRight") go(1);
     });
   </script>
-</body>
+
+  <script>
+    // ===== Fondo animado con partículas (corazoncitos + puntitos) =====
+    (function(){
+      const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d', { alpha: true });
+
+      const rootStyles = getComputedStyle(document.documentElement);
+      const palette = ['--a1','--a2','--a3','--a4','--a5'].map(v => rootStyles.getPropertyValue(v).trim());
+
+      function hexToRgb(hex){
+        const h = hex.replace('#','').trim();
+        const full = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+        const n = parseInt(full, 16);
+        return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+      }
+      function rgbaFromHex(hex, a){
+        const {r,g,b} = hexToRgb(hex || '#ffffff');
+        return `rgba(${r},${g},${b},${a})`;
+      }
+
+      function resize(){
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const isMobile = window.matchMedia && window.matchMedia('(max-width: 520px)').matches;
+      const COUNT = isMobile ? 50 : 80;
+
+      const particles = [];
+      function rand(min,max){ return Math.random()*(max-min)+min; }
+
+      function drawHeart(x,y,size,rot,color){
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(rot);
+        ctx.scale(size, size);
+
+        ctx.beginPath();
+        // corazón simple (path)
+        ctx.moveTo(0, 0.35);
+        ctx.bezierCurveTo(-0.5, -0.05, -0.55, -0.6, 0, -0.35);
+        ctx.bezierCurveTo(0.55, -0.6, 0.5, -0.05, 0, 0.35);
+        ctx.closePath();
+
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      function spawn(){
+        const colorHex = palette[Math.floor(Math.random()*palette.length)] || '#ffffff';
+        const type = Math.random() < 0.85 ? 'heart' : 'dot';
+        const size = type === 'heart' ? rand(14, 26) : rand(2, 4);
+        const p = {
+          x: rand(0, window.innerWidth),
+          y: rand(0, window.innerHeight),
+          vx: rand(-0.15, 0.15),
+          vy: rand(-0.35, -0.12),
+          size,
+          rot: rand(0, Math.PI*2),
+          spin: rand(-0.01, 0.01),
+          alpha: rand(0.50, 0.90),
+          colorHex,
+          type
+        };
+        particles.push(p);
+      }
+
+      for(let i=0;i<COUNT;i++) spawn();
+
+      let lastT = performance.now();
+
+      function step(t){
+        const dt = Math.min((t - lastT) / 16.67, 2);
+        lastT = t;
+
+        ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+        // mejor visibilidad
+        ctx.globalCompositeOperation = 'source-over';
+
+        for (const p of particles){
+          p.x += p.vx * dt * 10;
+          p.y += p.vy * dt * 10;
+          p.rot += p.spin * dt * 10;
+
+          // respawn si se va por arriba o lados
+          if (p.y < -40) { p.y = window.innerHeight + 40; p.x = rand(0, window.innerWidth); }
+          if (p.x < -40) p.x = window.innerWidth + 40;
+          if (p.x > window.innerWidth + 40) p.x = -40;
+
+          const col = rgbaFromHex(p.colorHex, p.alpha);
+
+          if (p.type === 'dot'){
+            ctx.beginPath();
+            ctx.fillStyle = col;
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            ctx.fill();
+          }else{
+            drawHeart(p.x, p.y, p.size/18, p.rot, col);
+          }
+        }
+
+        ctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(step);
+      }
+
+      // pausa si la pestaña no está visible
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) lastT = performance.now();
+      });
+
+      requestAnimationFrame(step);
+    })();
+  </script>
 </html>
