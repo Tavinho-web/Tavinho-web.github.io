@@ -101,4 +101,3 @@
 
   requestAnimationFrame(tick);
 })();
-
