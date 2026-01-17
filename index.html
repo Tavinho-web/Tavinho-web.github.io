@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Para ti ✨</title>
+  <style>
+  :root{
+    --bg1:#0b0b14;
+    --bg2:#0a1b2d;
+    --card: rgba(255,255,255,.06);
+    --card2: rgba(255,255,255,.10);
+    --text:#f4f4ff;
+    --muted:rgba(255,255,255,.72);
+    --ring: rgba(255,255,255,.22);
+
+    /* acentos */
+    --a1:#ff4fd8;
+    --a2:#7c5cff;
+    --a3:#22d3ee;
+    --a4:#34d399;
+    --a5:#fbbf24;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(900px 600px at 15% 10%, rgba(255,79,216,.22), transparent 55%),
+      radial-gradient(850px 520px at 95% 5%, rgba(124,92,255,.22), transparent 55%),
+      radial-gradient(900px 520px at 70% 95%, rgba(34,211,238,.18), transparent 55%),
+      linear-gradient(180deg, var(--bg1), var(--bg2));
+    min-height:100vh;
+  }
+
+  /* burbujitas decorativas */
+  body::before, body::after{
+    content:"";
+    position:fixed;
+    inset:auto;
+    width:360px; height:360px;
+    filter: blur(45px);
+    opacity:.35;
+    pointer-events:none;
+    border-radius:999px;
+    z-index:-1;
+  }
+  body::before{
+    left:-120px; top:140px;
+    background: radial-gradient(circle at 30% 30%, var(--a4), transparent 60%),
+                radial-gradient(circle at 70% 70%, var(--a1), transparent 60%);
+  }
+  body::after{
+    right:-140px; bottom:120px;
+    background: radial-gradient(circle at 30% 30%, var(--a2), transparent 60%),
+                radial-gradient(circle at 70% 70%, var(--a5), transparent 60%);
+  }
+
+  .wrap{ max-width: 980px; margin: 0 auto; padding: 28px 18px 60px; }
+
+  header{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+    margin-bottom:18px;
+    padding:16px 16px;
+    border-radius:18px;
+    background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(10px);
+  }
+
+  h1{
+    font-size: 22px;
+    margin:0;
+    letter-spacing:.2px;
+    background: linear-gradient(90deg, var(--text), rgba(255,255,255,.75));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .sub{ margin:6px 0 0; color:var(--muted); font-size: 14px; }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 720px){
+    .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .tile{
+    border-radius: 16px;
+    overflow:hidden;
+    cursor:pointer;
+    position:relative;
+    outline: none;
+    aspect-ratio: 1 / 1;
+    padding:0;
+
+    background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    transform: translateY(0);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .tile::before{
+    content:"";
+    position:absolute; inset:-2px;
+    background: linear-gradient(135deg, rgba(255,79,216,.35), rgba(34,211,238,.22), rgba(124,92,255,.30));
+    opacity:0;
+    transition: opacity .18s ease;
+    z-index:0;
+    filter: blur(10px);
+  }
+  .tile:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 18px 50px rgba(0,0,0,.35);
+    border-color: rgba(255,255,255,.20);
+  }
+  .tile:hover::before{ opacity:1; }
+
+  .tile img{
+    position:relative; z-index:1;
+    width:100%; height:100%;
+    object-fit: cover;
+    display:block;
+    transform: scale(1.02);
+    transition: transform .2s ease, filter .2s ease;
+    filter: saturate(1.08) contrast(1.05) brightness(1.02);
+  }
+  .tile:hover img{ transform: scale(1.06); }
+
+  .tile:focus-visible{ box-shadow: 0 0 0 3px var(--ring), 0 18px 50px rgba(0,0,0,.35); }
+
+  .badge{
+    position:absolute; left:10px; bottom:10px;
+    font-size:12px; font-weight:700;
+    color:rgba(10,10,20,.9);
+    background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
+    border:1px solid rgba(255,255,255,.20);
+    padding:7px 10px; border-radius: 999px;
+    z-index:2;
+    box-shadow: 0 10px 20px rgba(0,0,0,.25);
+  }
+
+  footer{
+    margin-top: 18px;
+    color: rgba(255,255,255,.60);
+    font-size: 12px;
+    padding:10px 2px;
+  }
+
+  /* Modal */
+  .modal[hidden]{ display:none; }
+  .modal{
+    position:fixed; inset:0;
+    background: rgba(0,0,0,.70);
+    display:flex; align-items:center; justify-content:center;
+    padding: 18px;
+    z-index: 50;
+  }
+  .panel{
+    width:min(920px, 100%);
+    border-radius: 18px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.14);
+    background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.55);
+  }
+  .panelTop{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 12px 14px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .panelTop .hint{ color:rgba(255,255,255,.72); font-size: 12px; }
+  .close{
+    border:none; background: rgba(255,255,255,.08); color: var(--text);
+    font-size: 18px; cursor:pointer;
+    padding: 8px 10px; border-radius: 12px;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .close:hover{ background: rgba(255,255,255,.14); transform: scale(1.03); }
+
+  .panelBody{
+    display:grid;
+    grid-template-columns: 1.2fr .8fr;
+  }
+  @media (max-width: 820px){
+    .panelBody{ grid-template-columns: 1fr; }
+  }
+  .big{
+    background: rgba(0,0,0,.25);
+    display:flex; align-items:center; justify-content:center;
+    padding: 10px;
+  }
+  .big img{
+    width:100%; height:100%;
+    max-height: 72vh;
+    object-fit: contain;
+    border-radius: 12px;
+    background: rgba(0,0,0,.20);
+  }
+  .caption{
+    padding: 16px 16px 18px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .caption h2{
+    margin:0;
+    font-size: 16px;
+    letter-spacing:.2px;
+    background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,.70));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .caption p{
+    margin:0;
+    color: rgba(255,255,255,.78);
+    line-height: 1.55;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Un álbum para ti 💛</h1>
+        <p class="sub">12 recuerdos. Toca una foto para ver la frase.</p>
+      </div>
+      <div style="color:rgba(255,255,255,.55);font-size:12px;">— de mí para ti</div>
+    </header>
+
+    <main class="grid" aria-label="Álbum de 12 fotos">
+      <!-- Cambia las rutas img/01.jpg ... img/12.jpg por tus fotos -->
+      <!-- Cambia data-title y data-text por tus frases -->
+      <button class="tile" data-index="0" data-title="Nuestro inicio" data-text="Ese día te pedí que fueras mi novia porque me di cuenta de algo sencillo pero enorme: contigo todo se siente en calma. No era solo emoción, era certeza. Certeza de que quería cuidarte, respetarte y construir algo bonito a tu lado. Desde ese momento supe que no quería estar solo en los días buenos, sino también ser tu equipo en los días difíciles. Y si volviera a ese instante, te lo pediría otra vez… sin pensarlo.">
+        <img src="img/imagen1.jpg" alt="Foto 1" loading="lazy">
+        <span class="badge">1</span>
+      </button>
+      <button class="tile" data-index="1" data-title="Tu sonrisa" data-text="Ese día te vi con esas flores y pensé: qué lindo verte recibir detalles… pero más lindo es lo que tú transmites. Tú haces que todo se vea más vivo: tu energía, tu risa, tu forma de mirar. Tu sonrisa no es solo una sonrisa; es mi lugar seguro, mi buena noticia del día. Y si pudiera elegir un momento para repetir, sería cualquiera donde tú estés así de feliz.">
+        <img src="img/imagen2.jpg" alt="Foto 2" loading="lazy">
+        <span class="badge">2</span>
+      </button>
+      <button class="tile" data-index="2" data-title="Una de las primeras citas" data-text="En esas primeras citas yo todavía estaba descubriéndote… pero mi corazón ya empezaba a reconocer algo: contigo me sentía en casa. No porque todo fuera perfecto, sino porque todo se sentía real. Tu presencia me daba calma, tu mirada me daba confianza, y tu forma de estar conmigo me hacía pensar ‘esto vale la pena’. Ahí empezó a nacer ese ‘nosotros’.">
+        <img src="img/imagen3.jpg" alt="Foto 3" loading="lazy">
+        <span class="badge">3</span>
+      </button>
+      <button class="tile" data-index="3" data-title="El primer 2pa2 con tus papas" data-text="....">
+        <img src="img/imagen4.jpg" alt="Foto 4" loading="lazy">
+        <span class="badge">4</span>
+      </button>
+      <button class="tile" data-index="4" data-title="La primera ida a sab" data-text="....">
+        <img src="img/imagen5.jpg" alt="Foto 5" loading="lazy">
+        <span class="badge">5</span>
+      </button>
+      <button class="tile" data-index="5" data-title="Tu grado" data-text="....">
+        <img src="img/imagen6.jpg" alt="Foto 6" loading="lazy">
+        <span class="badge">6</span>
+      </button>
+      <button class="tile" data-index="6" data-title="Primera salida con Mari" data-text="....">
+        <img src="img/imagen7.jpg" alt="Foto 7" loading="lazy">
+        <span class="badge">7</span>
+      </button>
+      <button class="tile" data-index="7" data-title="La primera ida al gym" data-text="....">
+        <img src="img/imagen8.jpg" alt="Foto 8" loading="lazy">
+        <span class="badge">8</span>
+      </button>
+      <button class="tile" data-index="8" data-title="Primer cumpleaños" data-text="....">
+        <img src="img/imagen9.jpg" alt="Foto 9" loading="lazy">
+        <span class="badge">9</span>
+      </button>
+      <button class="tile" data-index="9" data-title="Tus primitos" data-text="....">
+        <img src="img/imagen10.jpg" alt="Foto 10" loading="lazy">
+        <span class="badge">10</span>
+      </button>
+      <button class="tile" data-index="10" data-title="Primera vez viendo al Junior campeon" data-text="....">
+        <img src="img/imagen11.jpg" alt="Foto 11" loading="lazy">
+        <span class="badge">11</span>
+      </button>
+      <button class="tile" data-index="11" data-title="Primera navidad juntos" data-text="....">
+        <img src="img/imagen12.jpg" alt="Foto 12" loading="lazy">
+        <span class="badge">12</span>
+      </button>
+    </main>
+
+    <footer>Tip: en el modal puedes cerrar con <b>Esc</b> o tocando afuera.</footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" hidden>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="panelTop">
+        <div class="hint">Toca afuera o presiona Esc para cerrar</div>
+        <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="panelBody">
+        <div class="big">
+          <img id="mImg" src="" alt="Foto ampliada">
+        </div>
+        <div class="caption">
+          <h2 id="mTitle"></h2>
+          <p id="mText"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tiles = Array.from(document.querySelectorAll(".tile"));
+    const modal = document.getElementById("modal");
+    const closeBtn = document.getElementById("closeBtn");
+    const mImg = document.getElementById("mImg");
+    const mTitle = document.getElementById("mTitle");
+    const mText = document.getElementById("mText");
+
+    let lastFocused = null;
+
+    function openModal(tile){
+      lastFocused = document.activeElement;
+      const img = tile.querySelector("img");
+      mImg.src = img.src;
+      mImg.alt = img.alt;
+      mTitle.textContent = tile.dataset.title || "Recuerdo";
+      mText.textContent = tile.dataset.text || "";
+      modal.hidden = false;
+
+      // mover foco al botón cerrar (accesibilidad)
+      closeBtn.focus();
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(){
+      modal.hidden = true;
+      document.body.style.overflow = "";
+      if (lastFocused) lastFocused.focus();
+    }
+
+    tiles.forEach(tile => {
+      tile.addEventListener("click", () => openModal(tile));
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+
+    // Cerrar tocando el fondo
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Cerrar con Escape
+    document.addEventListener("keydown", (e) => {
+      if (!modal.hidden && e.key === "Escape") closeModal();
+    });
+  </script>
+</body>
+</html>
