@@ -58,3 +58,12 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") go(-1);
   if (e.key === "ArrowRight") go(1);
 });
+
+// ===== Cerrar sesión (logout) =====
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("taly_access");
+    window.location.href = "index.html";
+  });
+}
