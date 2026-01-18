@@ -400,3 +400,682 @@ body::after{
     gap: 10px;
   }
 }
+
+/* ===== Page transitions (fade + slide) ===== */
+.js body{
+  opacity: 0;
+}
+
+.js body.is-ready{
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+.js body.is-leaving{
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+
+/* Animación suave del contenido */
+.js .wrap{
+  transform: translateY(10px);
+}
+
+.js body.is-ready .wrap{
+  transform: translateY(0);
+  transition: transform .35s ease;
+}
+
+.js body.is-leaving .wrap{
+  transform: translateY(-8px);
+  transition: transform .22s ease;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .js body{ opacity: 1 !important; transition: none !important; }
+  .js .wrap{ transform: none !important; transition: none !important; }
+}
+
+/* ===== Flip card (modal) ===== */
+.panelBody.flipMode{
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.flipCard{
+  width: min(920px, 100%);
+  height: min(74vh, 640px);
+  perspective: 1200px;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.flipCard:focus-visible{
+  box-shadow: 0 0 0 3px var(--ring);
+  border-radius: 18px;
+}
+
+.flipInner{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .65s cubic-bezier(.2,.8,.2,1);
+  border-radius: 18px;
+}
+
+.flipInner.isFlipped{
+  transform: rotateY(180deg);
+}
+
+.flipFace{
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+}
+
+/* Frente: imagen */
+.flipFront{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.20);
+}
+.flipFront img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: rgba(0,0,0,.25);
+}
+.flipHint{
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255,255,255,.92);
+  background: rgba(0,0,0,.38);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* Atrás: texto */
+.flipBack{
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+}
+.flipBackContent{
+  padding: 16px 16px 18px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
+
+.flipBackContent h2{
+  margin: 0 0 10px;
+  font-size: 16px;
+  letter-spacing: .2px;
+  background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,.70));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.flipBackContent p{
+  margin: 0;
+  color: rgba(255,255,255,.84);
+  line-height: 1.7;
+  font-size: 14px;
+  white-space: pre-wrap;
+  text-wrap: pretty;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .flipInner{ transition: none !important; }
+}
+
+/* ===== Tipografía "carta": solo el reverso ===== */
+:root{
+  --fontTitle: "Playfair Display", ui-serif, Georgia, serif;
+  --fontLetter: "Cormorant Garamond", ui-serif, Georgia, serif;
+}
+
+.flipBackContent h2{
+  font-family: var(--fontTitle);
+  letter-spacing: .3px;
+}
+
+.flipBackContent p{
+  font-family: var(--fontLetter);
+  font-size: 16px;      /* un poco más "carta" */
+  line-height: 1.85;
+}
+
+/* ===== Album as Boardgame Cards ===== */
+:root{
+  --fontCardTitle: "Playfair Display", ui-serif, Georgia, serif;
+  --fontCardText: "Cormorant Garamond", ui-serif, Georgia, serif;
+}
+
+/* Grid: se ve mejor con cartas */
+.grid{
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 920px){
+  .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 720px){
+  .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Tile se convierte en carta */
+.tile.cardTile{
+  aspect-ratio: 3 / 4;   /* carta real */
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  perspective: 1200px;
+}
+
+/* "Marco" exterior con borde gradiente */
+.tile.cardTile .cardInner{
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  transform-style: preserve-3d;
+  transition: transform .65s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05)) padding-box,
+    linear-gradient(135deg, rgba(255,79,216,.45), rgba(34,211,238,.25), rgba(124,92,255,.40)) border-box;
+  border: 1px solid transparent;
+
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+
+.tile.cardTile:hover .cardInner{
+  transform: translateY(-4px);
+  box-shadow: 0 18px 55px rgba(0,0,0,.45);
+}
+
+.tile.cardTile.isFlipped .cardInner{
+  transform: rotateY(180deg);
+}
+
+/* Caras */
+.cardFace{
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+/* FRONT layout */
+.cardFront{
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.cardHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  padding: 10px 10px 8px;
+  background: rgba(0,0,0,.22);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.cardName{
+  font-family: var(--fontCardTitle);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .2px;
+  color: rgba(255,255,255,.92);
+  text-shadow: 0 10px 24px rgba(0,0,0,.45);
+  line-height: 1.1;
+}
+
+.cardBadge{
+  min-width: 30px;
+  height: 26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  color: rgba(10,10,20,.92);
+  background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+
+.cardArt{
+  position: relative;
+  margin: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+}
+
+.cardArt::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(600px 220px at 30% 10%, rgba(255,255,255,.18), transparent 55%);
+  pointer-events:none;
+}
+
+.cardArt img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+  transform: scale(1.02);
+  filter: saturate(1.08) contrast(1.05) brightness(1.02);
+}
+
+.cardFooter{
+  padding: 10px 12px 12px;
+  color: rgba(255,255,255,.70);
+  font-size: 12px;
+  text-align: center;
+  background: rgba(0,0,0,.16);
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+/* BACK */
+.cardBack{
+  transform: rotateY(180deg);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  /* "papel" */
+  background: linear-gradient(180deg, rgba(255,249,242,.96), rgba(255,255,255,.94));
+  color: rgba(15,15,25,.92);
+}
+
+.backHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  padding: 10px 10px 8px;
+  border-bottom: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.03);
+}
+
+.backName{
+  font-family: var(--fontCardTitle);
+  font-weight: 800;
+  font-size: 14px;
+  color: rgba(12,12,18,.92);
+  line-height: 1.1;
+}
+
+.backBody{
+  padding: 12px 12px 10px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  /* líneas tipo cuaderno */
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(0,0,0,.06) 0px,
+      rgba(0,0,0,.06) 1px,
+      transparent 1px,
+      transparent 26px
+    );
+}
+
+.backText{
+  margin: 0;
+  font-family: var(--fontCardText);
+  font-size: 16px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  text-wrap: pretty;
+  color: rgba(10,10,18,.86);
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
+}
+
+.backFooter{
+  padding: 10px 12px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(20,20,30,.60);
+  border-top: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.03);
+}
+
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .tile.cardTile .cardInner{ transition:none !important; }
+  .tile.cardTile:hover .cardInner{ transform:none !important; }
+}
+
+/* ===== Modal: TCG Card ===== */
+:root{
+  --fontCardTitle: "Playfair Display", ui-serif, Georgia, serif;
+  --fontCardText: "Cormorant Garamond", ui-serif, Georgia, serif;
+}
+
+.panelBody.tcgBodyWrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 14px;
+}
+
+.tcgCard{
+  border:none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  width: min(420px, 92vw);
+  aspect-ratio: 3 / 4;
+  perspective: 1200px;
+  outline: none;
+}
+
+.tcgCard:focus-visible{
+  box-shadow: 0 0 0 3px var(--ring);
+  border-radius: 18px;
+}
+
+.tcgInner{
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  transform-style: preserve-3d;
+  transition: transform .65s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+
+  /* marco tipo carta */
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05)) padding-box,
+    linear-gradient(135deg, rgba(255,79,216,.45), rgba(34,211,238,.25), rgba(124,92,255,.40)) border-box;
+  border: 1px solid transparent;
+
+  box-shadow: 0 20px 70px rgba(0,0,0,.55);
+}
+
+.tcgInner.isFlipped{ transform: rotateY(180deg); }
+
+.tcgFace{
+  position:absolute;
+  inset:0;
+  border-radius: 18px;
+  overflow:hidden;
+  backface-visibility: hidden;
+}
+
+/* ===== FRONT ===== */
+.tcgFront{
+  display:grid;
+  grid-template-rows: auto 1fr auto;
+  background: rgba(0,0,0,.18);
+}
+
+.tcgHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding: 10px 10px 8px;
+  background: rgba(0,0,0,.22);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.tcgHeader.back{
+  background: rgba(0,0,0,.03);
+  border-bottom: 1px solid rgba(0,0,0,.10);
+}
+
+.tcgName{
+  font-family: var(--fontCardTitle);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .2px;
+  line-height: 1.1;
+}
+
+.tcgFront .tcgName{
+  color: rgba(255,255,255,.92);
+  text-shadow: 0 10px 24px rgba(0,0,0,.45);
+}
+
+.tcgBack .tcgName{
+  color: rgba(12,12,18,.92);
+}
+
+.tcgBadge{
+  min-width: 30px;
+  height: 26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  color: rgba(10,10,20,.92);
+  background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+
+.tcgArt{
+  position: relative;
+  margin: 10px;
+  border-radius: 14px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.24);
+}
+
+.tcgArt::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(600px 220px at 30% 10%, rgba(255,255,255,.18), transparent 55%);
+  pointer-events:none;
+}
+
+.tcgArt img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+  filter: saturate(1.08) contrast(1.05) brightness(1.02);
+}
+
+.tcgFooter{
+  padding: 10px 12px 12px;
+  text-align:center;
+  font-size: 12px;
+  color: rgba(255,255,255,.70);
+  background: rgba(0,0,0,.16);
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.tcgFooter.back{
+  color: rgba(20,20,30,.60);
+  background: rgba(0,0,0,.03);
+  border-top: 1px solid rgba(0,0,0,.10);
+}
+
+/* ===== BACK (lore/papel) ===== */
+.tcgBack{
+  transform: rotateY(180deg);
+  display:grid;
+  grid-template-rows: auto 1fr auto;
+  background: linear-gradient(180deg, rgba(255,249,242,.96), rgba(255,255,255,.94));
+  color: rgba(15,15,25,.92);
+}
+
+.tcgLore{
+  padding: 12px 12px 10px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  /* líneas tipo cuaderno */
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(0,0,0,.06) 0px,
+      rgba(0,0,0,.06) 1px,
+      transparent 1px,
+      transparent 26px
+    );
+}
+
+.tcgText{
+  margin: 0;
+  font-family: var(--fontCardText);
+  font-size: 16px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  text-wrap: pretty;
+  color: rgba(10,10,18,.86);
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .tcgInner{ transition:none !important; }
+}
+
+/* ===== Modal: quitar "carta grande" (panel) y dejar solo la TCG ===== */
+
+/* Quita fondo/borde/sombra del panel grande */
+.panel{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  overflow: visible !important;
+}
+
+/* Quita la barra superior oscura del panel */
+.panelTop{
+  background: transparent !important;
+  border-bottom: none !important;
+  padding: 8px 0 !important;
+}
+
+/* Opcional: baja un poco el hint para que no "ensucie" */
+.panelTop .hint{
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 8px 10px;
+  border-radius: 999px;
+}
+
+/* Ajusta el cuerpo para centrar la carta y sin márgenes raros */
+.panelBody.tcgBodyWrap{
+  padding: 8px 0 0 !important;
+}
+
+/* Si quieres que la carta se vea más "flotando" */
+.tcgCard{
+  filter: drop-shadow(0 26px 80px rgba(0,0,0,.65));
+}
+
+/* Header (botones X, flechas) "flota" sin caja */
+.navBtns .navBtn, .navBtns .close{
+  background: rgba(0,0,0,.35) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+}
+
+/* ===== Back con el mismo fondo del álbum ===== */
+.tcgBack{
+  /* mismo fondo que body del album */
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(255,79,216,.22), transparent 55%),
+    radial-gradient(850px 520px at 95% 5%, rgba(124,92,255,.22), transparent 55%),
+    radial-gradient(900px 520px at 70% 95%, rgba(34,211,238,.18), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg2)) !important;
+
+  color: rgba(255,255,255,.92) !important;
+}
+
+/* header del back tipo glass */
+.tcgHeader.back{
+  background: rgba(255,255,255,.06) !important;
+  border-bottom: 1px solid rgba(255,255,255,.12) !important;
+}
+
+/* Área del texto: en vez de "papel blanco", glass/paper oscuro */
+.tcgLore{
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06)) padding-box,
+    linear-gradient(135deg, rgba(255,79,216,.30), rgba(34,211,238,.20), rgba(124,92,255,.26)) border-box !important;
+  border: 1px solid transparent !important;
+
+  border-radius: 14px;
+  margin: 12px;
+  padding: 14px 14px 16px;
+
+  /* quitamos las líneas tipo cuaderno */
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+}
+
+/* Texto claro y cómodo */
+.tcgText{
+  color: rgba(255,255,255,.85) !important;
+  text-shadow: 0 10px 22px rgba(0,0,0,.35);
+  line-height: 1.8;
+}
+
+/* Footer back */
+.tcgFooter.back{
+  background: rgba(255,255,255,.06) !important;
+  border-top: 1px solid rgba(255,255,255,.12) !important;
+  color: rgba(255,255,255,.70) !important;
+}
+
+/* opcional: un "glow" suave atrás del lore */
+.tcgLore::before{
+  content:"";
+  position:absolute;
+  inset:-18px;
+  border-radius: 18px;
+  background:
+    radial-gradient(260px 180px at 20% 15%, rgba(255,79,216,.16), transparent 60%),
+    radial-gradient(260px 180px at 80% 85%, rgba(34,211,238,.12), transparent 60%);
+  filter: blur(14px);
+  opacity: .9;
+  pointer-events:none;
+}
+.tcgLore{ position: relative; overflow: hidden; }
+/* Asegura que los botones del header estén por encima de la carta */
+.panelTop{
+  position: relative;
+  z-index: 5;
+}
+.tcgCard{
+  position: relative;
+  z-index: 1;
+}
