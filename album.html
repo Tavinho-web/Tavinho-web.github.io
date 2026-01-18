@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Para ti ✨</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <script>
@@ -94,10 +98,10 @@
       <a class="cta" href="carta.html">Siguiente sorpresa ✨</a>
     </div>
 
-    <footer>Tip: en el modal puedes cerrar con <b>Esc</b> o tocando afuera.</footer>
+    <footer>Tip: en el modal puedes cerrar con <b>Esc</b> o tocando afuera. Toca la carta para voltearla.</footer>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal con carta TCG -->
   <div class="modal" id="modal" hidden>
     <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
       <div class="panelTop">
@@ -108,17 +112,47 @@
           <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
         </div>
       </div>
-      <div class="panelBody">
-        <div class="big">
-          <img id="mImg" src="" alt="Foto ampliada">
-        </div>
-        <div class="caption">
-          <h2 id="mTitle"></h2>
-          <p id="mText"></p>
-        </div>
+
+      <div class="panelBody tcgBodyWrap">
+        <button class="tcgCard" id="tcgCard" type="button" aria-label="Voltear carta">
+          <div class="tcgInner" id="tcgInner">
+
+            <!-- FRENTE -->
+            <div class="tcgFace tcgFront">
+              <div class="tcgHeader">
+                <div class="tcgName" id="mTitle"></div>
+                <span class="tcgBadge" id="mBadge"></span>
+              </div>
+
+              <div class="tcgArt">
+                <img id="mImg" src="" alt="Foto ampliada">
+              </div>
+
+              <div class="tcgFooter">Toca para voltear ↻</div>
+            </div>
+
+            <!-- ATRÁS -->
+            <div class="tcgFace tcgBack">
+              <div class="tcgHeader back">
+                <div class="tcgName" id="mTitleBack"></div>
+                <span class="tcgBadge" id="mBadgeBack"></span>
+              </div>
+
+              <div class="tcgLore">
+                <p class="tcgText" id="mText"></p>
+              </div>
+
+              <div class="tcgFooter back">Toca para volver ↺</div>
+            </div>
+
+          </div>
+        </button>
       </div>
-    </div>
+    </div> <!-- cierra .panel -->
+  </div>   <!-- cierra .modal -->
+
   <!-- Mantén este orden -->
+  <script src="page-transitions.js"></script>
   <script src="index-modal.js"></script>
   <script src="bg-particles.js"></script>
   <script src="confetti.js"></script>
