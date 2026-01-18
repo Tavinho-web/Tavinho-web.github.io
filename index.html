@@ -5,12 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Bienvenida 💛</title>
   <link rel="stylesheet" href="welcome.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+  <div class="noise" aria-hidden="true"></div>
+
   <div class="wrap">
     <div class="card">
       <h1>Bienvenida a tu página, Taly 🌹</h1>
       <p class="sub">Escribe el código para entrar al álbum ✨</p>
+
+      <div class="pinDots" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
 
       <form id="loginForm" class="form">
         <input
@@ -31,6 +38,9 @@
     </div>
   </div>
 
+  <div id="fxLayer" aria-hidden="true"></div>
+
+  <script src="page-transitions.js"></script>
   <script src="welcome.js"></script>
 </body>
 </html>
