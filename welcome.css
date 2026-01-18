@@ -91,3 +91,233 @@ button{
   color: rgba(255,255,255,.55);
   font-size: 12px;
 }
+
+/* ===== Page transitions (fade + slide) ===== */
+.js body{
+  opacity: 0;
+}
+
+.js body.is-ready{
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+.js body.is-leaving{
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+
+/* Animación suave del contenido */
+.js .wrap{
+  transform: translateY(10px);
+}
+
+.js body.is-ready .wrap{
+  transform: translateY(0);
+  transition: transform .35s ease;
+}
+
+.js body.is-leaving .wrap{
+  transform: translateY(-8px);
+  transition: transform .22s ease;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .js body{ opacity: 1 !important; transition: none !important; }
+  .js .wrap{ transform: none !important; transition: none !important; }
+}
+
+/* ===== FX: corazones al entrar (1s) ===== */
+#fxLayer{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  overflow: hidden;
+}
+
+.fxHeart{
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%) scale(.2);
+  opacity: 0;
+  font-size: var(--s);
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+  will-change: transform, opacity;
+  animation: fxBurst 900ms ease-out forwards;
+}
+
+@keyframes fxBurst{
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(.2) rotate(0deg); }
+  12%  { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform:
+      translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+      scale(1.05)
+      rotate(var(--rot));
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #fxLayer{ display:none; }
+}
+
+/* ===== Upgrade look: fondo con blobs + movimiento suave ===== */
+body{
+  background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+  animation: bgMove 18s ease-in-out infinite;
+}
+
+@keyframes bgMove{
+  0%{ background-position: 15% 10%, 95% 5%, 70% 95%, 0 0; }
+  50%{ background-position: 10% 18%, 88% 12%, 62% 88%, 0 0; }
+  100%{ background-position: 15% 10%, 95% 5%, 70% 95%, 0 0; }
+}
+
+/* blobs decorativos */
+body::before, body::after{
+  content:"";
+  position: fixed;
+  width: 420px; height: 420px;
+  border-radius: 999px;
+  filter: blur(55px);
+  opacity: .28;
+  pointer-events: none;
+  z-index: 0;
+}
+body::before{
+  left: -160px; top: 120px;
+  background:
+    radial-gradient(circle at 30% 30%, var(--a1), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--a4), transparent 60%);
+  animation: blobA 14s ease-in-out infinite alternate;
+}
+body::after{
+  right: -180px; bottom: 90px;
+  background:
+    radial-gradient(circle at 30% 30%, var(--a2), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--a3), transparent 60%);
+  animation: blobB 17s ease-in-out infinite alternate;
+}
+
+@keyframes blobA{
+  0%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(40px,-30px) scale(1.06); }
+  100%{ transform: translate(-10px,10px) scale(1.02); }
+}
+@keyframes blobB{
+  0%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(-35px,25px) scale(1.07); }
+  100%{ transform: translate(10px,-10px) scale(1.03); }
+}
+
+/* capa "noise" sutil (mejora el look del gradiente) */
+body .noise{
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .06;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 2px);
+  mix-blend-mode: overlay;
+}
+
+/* Asegura stacking correcto */
+.wrap{ position: relative; z-index: 2; }
+
+/* ===== Card: borde neón + glow ===== */
+.card{
+  position: relative;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.05)) padding-box,
+    linear-gradient(135deg, rgba(255,79,216,.55), rgba(34,211,238,.32), rgba(124,92,255,.50)) border-box;
+  box-shadow: 0 22px 70px rgba(0,0,0,.45);
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  z-index:-1;
+  border-radius: 28px;
+  background:
+    radial-gradient(420px 240px at 30% 20%, rgba(255,79,216,.14), transparent 70%),
+    radial-gradient(420px 240px at 70% 70%, rgba(34,211,238,.12), transparent 70%);
+  filter: blur(18px);
+}
+
+/* ===== PIN dots ===== */
+.pinDots{
+  display:flex;
+  gap: 10px;
+  margin: 10px 0 14px;
+  align-items:center;
+}
+.pinDots span{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+}
+.pinDots span.on{
+  background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
+  border-color: rgba(255,255,255,.26);
+}
+
+/* ===== Input: focus ring más pro ===== */
+input:focus{
+  border-color: rgba(255,255,255,.24);
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.10),
+    0 0 0 6px rgba(34,211,238,.08);
+}
+
+/* ===== Button: shimmer ===== */
+button{
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform .15s ease, filter .15s ease;
+}
+button:hover{ transform: translateY(-1px); filter: brightness(1.04); }
+button:active{ transform: translateY(0); }
+
+button::after{
+  content:"";
+  position:absolute;
+  inset:-40% -60%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.40), transparent);
+  transform: translateX(-80%) rotate(12deg);
+  opacity: 0;
+  animation: shine 3.4s ease-in-out infinite;
+}
+@keyframes shine{
+  0%,65%{ transform: translateX(-80%) rotate(12deg); opacity:0; }
+  75%{ opacity:.9; }
+  100%{ transform: translateX(80%) rotate(12deg); opacity:0; }
+}
+
+/* ===== Shake al fallar ===== */
+@keyframes shake{
+  0%{ transform: translateX(0); }
+  20%{ transform: translateX(-8px); }
+  40%{ transform: translateX(7px); }
+  60%{ transform: translateX(-6px); }
+  80%{ transform: translateX(5px); }
+  100%{ transform: translateX(0); }
+}
+.card.shake{ animation: shake .35s ease; }
+
+@media (prefers-reduced-motion: reduce){
+  body{ animation:none; }
+  body::before, body::after{ animation:none; }
+  button::after{ animation:none; }
+}
