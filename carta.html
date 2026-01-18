@@ -5,22 +5,41 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Una carta para ti 💌</title>
 
+  <!-- Fuentes bonitas (elegante carta) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="carta.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <div class="wrap">
-    <header>
+    <header class="topHeader">
       <div>
         <h1>Una carta para ti 💌</h1>
         <p class="sub">Para cuando quieras leer algo bonito, sin prisa.</p>
       </div>
-      <div style="color:rgba(255,255,255,.55);font-size:12px;">— siempre contigo</div>
+      <div class="miniNote">— siempre contigo</div>
     </header>
 
-    <section class="card">
-      <div class="paper">
-Mi amor Taly,
+    <section class="letterCard">
+      <div class="envelopeHead">
+        <div class="stamp" aria-hidden="true">💌</div>
 
+        <div class="meta">
+          <div class="to">Para: <b>Taly</b></div>
+          <div class="from">De: <b>Tavo</b></div>
+        </div>
+
+        <div class="seal" aria-hidden="true"><span>💛</span></div>
+      </div>
+
+      <div class="paper" aria-label="Carta">
+        <div class="paperInner">
+          <div class="paperTitle">Mi amor Taly,</div>
+
+          <div class="paperText">
 Desde que llegaste a mi vida, todo se siente más tranquilo. Contigo aprendí que el amor no es solo emoción: es calma, es cuidado, y es elegirnos incluso en los días difíciles.
 
 Admiro tu forma de ser, tu nobleza, tu fuerza y esa luz que tienes para hacer bonito lo simple. Me encanta verte feliz con tus flores, porque ahí se nota lo hermosa que eres por dentro y por fuera.
@@ -32,10 +51,15 @@ Gracias por acompañarme, por creer en mí, por darme tu tiempo y por dejarme cu
 Y claro… más hamburguesas juntos, más risas, y más momentos donde el mundo se pausa y solo somos tú y yo.
 
 Si algún día dudas, quiero que recuerdes esto: yo te elijo. Hoy, mañana, y cada día que venga.
-      </div>
-      <div class="sig">— Con amor, Tavo 💌</div>
+          </div>
 
-      <h2 class="voucherTitle">Elige uno: </h2>
+          <div class="sig">— Con amor, Tavo 💌</div>
+        </div>
+      </div>
+
+      <div class="divider">
+        <span>Elige un vale ✨</span>
+      </div>
 
       <div class="grid">
         <a class="voucherBtn"
@@ -69,7 +93,7 @@ Si algún día dudas, quiero que recuerdes esto: yo te elijo. Hoy, mañana, y ca
         <a class="voucherBtn"
            href="https://wa.me/573025425793?text=Quiero%20reclamar%20el%20vale%20por%20fotos%20nuevas%20juntos%20%F0%9F%93%B8%F0%9F%92%9B"
            target="_blank" rel="noopener">
-          <h3>Vale por fotos nuevas juntos 📸</h3>
+          <h3>Vale por fotos nuevas juntos 📸💛</h3>
           <p>Vamos a crear más recuerdos para el álbum.</p>
         </a>
 
@@ -86,5 +110,7 @@ Si algún día dudas, quiero que recuerdes esto: yo te elijo. Hoy, mañana, y ca
       <a class="btn primary" href="album.html?confetti=1">💛 Gracias por leer</a>
     </div>
   </div>
+
+  <script src="page-transitions.js"></script>
 </body>
 </html>
