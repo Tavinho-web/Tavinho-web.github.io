@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>🐾 Lula</title>
+  <link rel="stylesheet" href="lula.css">
+</head>
+
+<body class="lulaPage">
+  <script>
+    (function(){
+      if (localStorage.getItem("taly_access") !== "ok") location.replace("index.html");
+    })();
+  </script>
+
+  <div class="wrap">
+    <div class="top">
+      <div class="kicker">Una sorpresa más…</div>
+      <h1>Lula 🐶💛</h1>
+      <p class="sub">La Maltipoo blanca de 1 añito que Taly ama con el alma.</p>
+
+      <div class="about">
+        <div class="aboutTitle">¿Quién es Lula?</div>
+        <div class="aboutText">
+          Lula es una <b>Maltipoo blanca</b>, pequeñita y esponjosa, con apenas <b>1 año</b>.
+          Tiene esa energía tierna que alegra todo, y por eso Taly la ama muchísimo.
+        </div>
+      </div>
+
+      <button class="skip" id="skipBtn" type="button">Volver al álbum →</button>
+    </div>
+
+    <div class="collage" id="collage" aria-label="Collage de Lula">
+      <!-- SOLO FOTOS (cambia los src por los tuyos) -->
+      <figure class="ph p1"><img src="img/lula1.jpg" alt="Lula 1" loading="eager"></figure>
+      <figure class="ph p2" style="--bgImg:url('img/lula2.jpg')"><img src="img/lula2.jpg" alt="Lula 2" loading="eager"></figure>
+      <figure class="ph p3" style="--bgImg:url('img/lula3.jpg')"><img src="img/lula3.jpg" alt="Lula 3" loading="eager"></figure>
+      <figure class="ph p4"><img src="img/lula4.jpg" alt="Lula 4" loading="eager"></figure>
+      <figure class="ph p5"><img src="img/lula5.jpg" alt="Lula 5" loading="eager"></figure>
+      <figure class="ph p6"><img src="img/lula6.jpg" alt="Lula 6" loading="eager"></figure>
+    </div>
+
+    <div class="foot">🐾</div>
+  </div>
+
+  <script src="lula.js"></script>
+</body>
+</html>

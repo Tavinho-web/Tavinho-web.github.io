@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>✨ Para Taly</title>
+  <link rel="stylesheet" href="intro.css">
+</head>
+<body class="introPage">
+  <script>
+    (function(){
+      if (localStorage.getItem("taly_access") !== "ok") location.replace("index.html");
+    })();
+  </script>
+
+  <div class="wrap">
+    <div class="top">
+      <div class="kicker">Antes de entrar…</div>
+      <h1>Taly en 6 momentos 💛</h1>
+      <p class="sub">Un mini resumen hecho con amor (toca "Saltar" si quieres).</p>
+
+      <div class="about">
+        <div class="aboutTitle">¿Quién es Taly?</div>
+        <div class="aboutText">
+          Taly es luz y calma. Es de esas personas que hacen bonito lo simple, con una nobleza que se nota
+          en cómo mira, cómo cuida y cómo ama. Fuerte cuando toca, dulce siempre… y mi lugar favorito.
+        </div>
+      </div>
+
+      <button class="skip" id="skipBtn" type="button">Saltar →</button>
+    </div>
+
+    <div class="collage" id="collage" aria-label="Collage de fotos">
+      <!-- Cambia los src por tus fotos -->
+      <figure class="ph p1" data-caption=><img src="img/taly1.jpg" alt="Taly 1" loading="eager"></figure>
+      <figure class="ph p2" data-caption="La calma que se siente contigo 💛"><img src="img/taly2.jpg" alt="Taly 2" loading="eager"></figure>
+      <figure class="ph p3" data-caption="Tu luz cambia el día 🌷"><img src="img/taly3.jpg" alt="Taly 3" loading="eager"></figure>
+      <figure class="ph p4" data-caption="Fuerte, noble y auténtica 🔥"><img src="img/taly4.jpg" alt="Taly 4" loading="eager"></figure>
+      <figure class="ph p5" data-caption="Contigo todo se siente hogar 🫶"><img src="img/taly5.jpg" alt="Taly 5" loading="eager"></figure>
+      <figure class="ph p6" data-caption="Mi persona favorita del mundo 🥹"><img src="img/taly6.jpg" alt="Taly 6" loading="eager"></figure>
+      <div class="tag t1">✨ Luz</div>
+      <div class="tag t2">💛 Nobleza</div>
+      <div class="tag t3">🌷 Dulzura</div>
+      <div class="tag t4">🔥 Fuerza</div>
+    </div>
+
+    <div class="foot">Entrando al álbum…</div>
+  </div>
+
+  <script src="intro.js"></script>
+</body>
+</html>

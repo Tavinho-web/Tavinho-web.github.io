@@ -1,0 +1,447 @@
+:root{
+  --bg1:#0b0b14;
+  --bg2:#0a1b2d;
+  --text:#f4f4ff;
+  --muted:rgba(255,255,255,.72);
+  --ring: rgba(255,255,255,.22);
+  --a1:#ff4fd8; --a2:#7c5cff; --a3:#22d3ee; --a4:#34d399; --a5:#fbbf24;
+}
+
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(255,79,216,.18), transparent 55%),
+    radial-gradient(850px 520px at 95% 5%, rgba(124,92,255,.18), transparent 55%),
+    radial-gradient(900px 520px at 70% 95%, rgba(34,211,238,.14), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 22px;
+}
+
+.wrap{
+  width:min(980px, 100%);
+  display:grid;
+  gap: 14px;
+}
+
+.top{
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+.kicker{ color: rgba(255,255,255,.72); font-size: 12px; }
+h1{ margin:6px 0 6px; font-size: 22px; letter-spacing:.2px; }
+.sub{ margin:0; color: var(--muted); font-size: 14px; }
+
+.skip{
+  position:absolute;
+  right: 12px;
+  top: 12px;
+  border:none;
+  cursor:pointer;
+  color: rgba(10,10,20,.92);
+  font-weight: 900;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow: 0 16px 40px rgba(0,0,0,.25);
+}
+.skip:focus-visible{ outline:none; box-shadow: 0 0 0 3px var(--ring), 0 16px 40px rgba(0,0,0,.25); }
+
+.collage{
+  border-radius: 22px;
+  padding: 14px;
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(12px);
+  position: relative;
+
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 34px;
+  gap: 10px;
+
+  overflow:hidden;
+}
+
+/* Tarjetas/fotos */
+.ph{
+  margin:0;
+  border-radius: 18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.25);
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+  transform: translateY(10px) scale(.98);
+  opacity: 0;
+  animation: popIn .55s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.ph img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+  filter: saturate(1.05) contrast(1.05) brightness(1.02);
+}
+
+/* Posiciones tipo collage */
+.p1{ grid-column: 1 / span 5; grid-row: 1 / span 6; animation-delay: .10s; }
+.p2{ grid-column: 6 / span 4; grid-row: 1 / span 4; animation-delay: .20s; }
+.p3{ grid-column: 10 / span 3; grid-row: 1 / span 5; animation-delay: .30s; }
+.p4{ grid-column: 6 / span 7; grid-row: 5 / span 6; animation-delay: .40s; }
+.p5{ grid-column: 1 / span 5; grid-row: 7 / span 5; animation-delay: .50s; }
+.p6{ grid-column: 10 / span 3; grid-row: 6 / span 6; animation-delay: .60s; }
+
+@media (max-width: 720px){
+  .collage{ grid-auto-rows: 30px; }
+  .p1{ grid-column: 1 / span 7; grid-row: 1 / span 6; }
+  .p2{ grid-column: 8 / span 5; grid-row: 1 / span 4; }
+  .p3{ grid-column: 8 / span 5; grid-row: 5 / span 5; }
+  .p4{ grid-column: 1 / span 7; grid-row: 7 / span 5; }
+  .p5{ display:none; }
+  .p6{ display:none; }
+}
+
+/* Tags flotantes */
+.tag{
+  position:absolute;
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  box-shadow: 0 16px 45px rgba(0,0,0,.35);
+  transform: translateY(6px);
+  opacity: 0;
+  animation: tagIn .55s ease forwards;
+}
+.t1{ left: 18px; top: 16px; animation-delay: .55s; }
+.t2{ right: 18px; top: 40px; animation-delay: .70s; }
+.t3{ left: 22px; bottom: 18px; animation-delay: .85s; }
+.t4{ right: 22px; bottom: 18px; animation-delay: 1.0s; }
+
+.foot{
+  text-align:center;
+  color: rgba(255,255,255,.70);
+  font-size: 12px;
+}
+
+@keyframes popIn{
+  to{ transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes tagIn{
+  to{ transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ph, .tag{ animation: none !important; opacity: 1; transform:none; }
+}
+
+/* ===== Upgrade: Polaroid collage más lindo ===== */
+
+/* Da más "aire" y profundidad */
+.collage{
+  padding: 18px;
+  border-radius: 26px;
+  background: rgba(0,0,0,.14);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow: 0 26px 90px rgba(0,0,0,.45);
+}
+
+/* Polaroid look */
+.ph{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  padding: 10px 10px 18px; /* "marco" + espacio abajo */
+  transform: translateY(16px) scale(.96) rotate(var(--r, 0deg));
+  opacity: 0;
+  animation: polaroidIn .85s cubic-bezier(.2,.9,.2,1) forwards;
+  position: relative;
+}
+
+/* brillo suave */
+.ph::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(600px 240px at 20% 10%, rgba(255,255,255,.16), transparent 60%);
+  pointer-events:none;
+  opacity:.9;
+}
+
+/* la foto dentro */
+.ph img{
+  flex: 1 1 auto;
+  min-height: 0;
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius: 14px;
+  display:block;
+  filter: saturate(1.06) contrast(1.06) brightness(1.03);
+  transform: scale(1.02);
+}
+
+/* Texto tipo "nota" */
+.ph figcaption{
+  text-align:center;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(255,255,255,.78);
+  letter-spacing: .2px;
+  padding-bottom: 2px;
+}
+
+/* rotaciones distintas para que se vea collage real */
+.p1{ --r: -2.5deg; animation-delay: .20s; }
+.p2{ --r:  2.0deg; animation-delay: .55s; }
+.p3{ --r: -1.2deg; animation-delay: .90s; }
+.p4{ --r:  1.8deg; animation-delay: 1.25s; }
+.p5{ --r: -2.0deg; animation-delay: 1.60s; }
+.p6{ --r:  2.4deg; animation-delay: 1.95s; }
+
+/* animación */
+@keyframes polaroidIn{
+  0%   { transform: translateY(18px) scale(.96) rotate(var(--r)); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0)   scale(1)   rotate(var(--r)); opacity: 1; }
+}
+
+/* movimiento suave de "vida" (muy leve) */
+.ph{
+  will-change: transform;
+}
+@keyframes floaty{
+  0%{ transform: translateY(0) scale(1) rotate(var(--r)); }
+  50%{ transform: translateY(-4px) scale(1) rotate(var(--r)); }
+  100%{ transform: translateY(0) scale(1) rotate(var(--r)); }
+}
+.p1{ animation-name: polaroidIn, floaty; animation-duration: .85s, 6.5s; animation-delay: .20s, 2.6s; animation-iteration-count: 1, infinite; }
+.p2{ animation-name: polaroidIn, floaty; animation-duration: .85s, 7.0s; animation-delay: .55s, 2.8s; animation-iteration-count: 1, infinite; }
+.p3{ animation-name: polaroidIn, floaty; animation-duration: .85s, 6.8s; animation-delay: .90s, 3.0s; animation-iteration-count: 1, infinite; }
+.p4{ animation-name: polaroidIn, floaty; animation-duration: .85s, 7.2s; animation-delay: 1.25s, 3.2s; animation-iteration-count: 1, infinite; }
+.p5{ animation-name: polaroidIn, floaty; animation-duration: .85s, 6.9s; animation-delay: 1.60s, 3.4s; animation-iteration-count: 1, infinite; }
+.p6{ animation-name: polaroidIn, floaty; animation-duration: .85s, 7.4s; animation-delay: 1.95s, 3.6s; animation-iteration-count: 1, infinite; }
+
+/* corazones flotando de fondo */
+.collage::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background:
+    radial-gradient(12px 12px at 15% 20%, rgba(255,79,216,.35), transparent 60%),
+    radial-gradient(10px 10px at 70% 30%, rgba(34,211,238,.28), transparent 60%),
+    radial-gradient(12px 12px at 85% 75%, rgba(251,191,36,.26), transparent 60%),
+    radial-gradient(10px 10px at 35% 85%, rgba(124,92,255,.28), transparent 60%);
+  filter: blur(2px);
+  opacity: .9;
+  pointer-events:none;
+}
+
+/* Botón deshabilitado mientras corre la intro */
+.skip:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+  filter: grayscale(.15);
+}
+.skip.ready{
+  opacity: 1;
+}
+
+/* ===== Top resumen ===== */
+.about{
+  margin-top: 10px;
+  border-radius: 16px;
+  padding: 12px 12px;
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid rgba(255,255,255,.10);
+}
+.aboutTitle{
+  font-weight: 900;
+  font-size: 13px;
+  color: rgba(255,255,255,.90);
+  letter-spacing: .2px;
+}
+.aboutText{
+  margin-top: 6px;
+  color: rgba(255,255,255,.74);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ===== Collage premium (ordenado, sin recortes raros) ===== */
+.collage{
+  display:grid !important;
+  grid-template-columns: repeat(12, 1fr) !important;
+  gap: 12px !important;
+  grid-auto-rows: 72px !important;
+  padding: 18px !important;
+  border-radius: 26px !important;
+  background: rgba(0,0,0,.14) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  overflow:hidden !important;
+}
+
+/* Tarjetas con misma altura visual */
+.ph{
+  position: relative;
+  margin:0;
+  border-radius: 18px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.25);
+  box-shadow: 0 18px 60px rgba(0,0,0,.40);
+  transform: translateY(10px) scale(.98);
+  opacity: 0;
+  animation: popIn .65s cubic-bezier(.2,.85,.2,1) forwards;
+}
+.ph img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+  filter: saturate(1.06) contrast(1.05) brightness(1.02);
+  transform: scale(1.02);
+}
+
+/* overlay caption bonito */
+.ph::after{
+  content: attr(data-caption);
+  position:absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: 13px;
+  color: rgba(255,255,255,.88);
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  text-shadow: 0 10px 20px rgba(0,0,0,.35);
+}
+
+/* brillo suave arriba para que se vea premium */
+.ph::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(700px 280px at 20% 10%, rgba(255,255,255,.18), transparent 60%);
+  pointer-events:none;
+}
+
+/* layout estable (sin cosas encimadas) */
+.p1{ grid-column: 1 / span 6;  grid-row: 1 / span 5; animation-delay:.10s; }
+.p2{ grid-column: 7 / span 6;  grid-row: 1 / span 3; animation-delay:.22s; }
+.p3{ grid-column: 7 / span 6;  grid-row: 4 / span 2; animation-delay:.34s; }
+.p4{ grid-column: 1 / span 4;  grid-row: 6 / span 3; animation-delay:.46s; }
+.p5{ grid-column: 5 / span 4;  grid-row: 6 / span 3; animation-delay:.58s; }
+.p6{ grid-column: 9 / span 4;  grid-row: 6 / span 3; animation-delay:.70s; }
+
+/* responsive: 2 columnas en móvil */
+@media (max-width: 820px){
+  .collage{ grid-auto-rows: 64px !important; }
+  .p1{ grid-column: 1 / span 12; grid-row: 1 / span 4; }
+  .p2{ grid-column: 1 / span 12; grid-row: 5 / span 3; }
+  .p3{ grid-column: 1 / span 12; grid-row: 8 / span 3; }
+  .p4{ grid-column: 1 / span 6;  grid-row: 11 / span 3; }
+  .p5{ grid-column: 7 / span 6;  grid-row: 11 / span 3; }
+  .p6{ grid-column: 1 / span 12; grid-row: 14 / span 3; }
+}
+
+/* animación */
+@keyframes popIn{
+  to{ transform: translateY(0) scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce){
+  .ph{ animation:none !important; opacity:1; transform:none; }
+}
+
+/* Respeta accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .p1,.p2,.p3,.p4,.p5,.p6{ animation: none !important; }
+  .ph{ opacity:1; transform:none; }
+}
+
+/* =========================================================
+   INTRO (Taly): Collage que se ajusta a la foto (alto real)
+   - No recorta
+   - Cada cuadro toma la proporción de la imagen
+   ========================================================= */
+
+/* Quitar frases (ya que salen por ::after con data-caption) */
+.introPage .ph::after{ content:"" !important; display:none !important; }
+
+/* Quitar tags flotantes */
+.introPage .tag{ display:none !important; }
+
+/* Collage tipo masonry (anula el grid fijo) */
+.introPage .collage{
+  display: block !important;      /* deja de ser grid */
+  column-count: 3;
+  column-gap: 12px;
+
+  /* mantiene tu look */
+  padding: 18px !important;
+  border-radius: 26px !important;
+  background: rgba(0,0,0,.14) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  overflow: hidden !important;
+}
+
+/* Cada tarjeta se ajusta al contenido (la imagen) */
+.introPage .ph{
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 12px;
+
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+
+  /* quita animaciones/transform del grid viejo */
+  transform: none !important;
+  opacity: 1 !important;
+  animation: none !important;
+
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.25);
+  box-shadow: 0 18px 60px rgba(0,0,0,.40);
+}
+
+/* Imagen completa (sin recorte) */
+.introPage .ph img{
+  width: 100% !important;
+  height: auto !important;        /* clave: alto real */
+  display: block !important;
+  object-fit: contain !important; /* se ve completa */
+  transform: none !important;
+  background: transparent !important;
+}
+
+/* Responsive */
+@media (max-width: 920px){
+  .introPage .collage{ column-count: 2; }
+}
+@media (max-width: 520px){
+  .introPage .collage{ column-count: 1; }
+}
