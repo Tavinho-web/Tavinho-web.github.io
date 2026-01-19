@@ -1,5 +1,5 @@
 (function(){
-  const ALBUM_URL = "album.html";
+  const ALBUM_URL = "intro.html";
   const CODE = "011125";
 
   function playHeartsBurst() {
@@ -95,3 +95,4 @@
     }
   });
 })();
+
