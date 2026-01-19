@@ -1,160 +1,164 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Para ti ✨</title>
+  <!doctype html>
+  <html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>Para ti ✨</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="index.css">
-  <script>document.documentElement.classList.add('js');</script>
-</head>
-<body>
-  <script>
-    (function(){
-      if (localStorage.getItem("taly_access") !== "ok") {
-        location.replace("index.html");
-      }
-    })();
-  </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <script>
+      (function(){
+        if (localStorage.getItem("taly_access") !== "ok") {
+          location.replace("index.html");
+        }
+      })();
+    </script>
 
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
-  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Un álbum para ti 💛</h1>
-        <p class="sub">12 recuerdos contigo. Toca una foto para leer lo que sentí ese día.</p>
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>Un álbum para ti 💛</h1>
+          <p class="sub">12 recuerdos contigo. Toca una foto para leer lo que sentí ese día.</p>
+        </div>
+
+        <div class="headerActions">
+          <a class="talyBtn" href="intro.html">Taly</a>
+          <a class="talyBtn" href="lula.html">Lula 🐾</a>
+          <button class="logout" id="logoutBtn" type="button">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <main class="grid" aria-label="Álbum de 12 fotos">
+        <button class="tile" data-index="0" data-title="Nuestro inicio" data-text="Ese día te pedí que fueras mi novia porque me di cuenta de algo sencillo pero enorme: contigo todo se siente en calma. No era solo emoción, era certeza. Certeza de que quería cuidarte, respetarte y construir algo bonito a tu lado. Desde ese momento supe que no quería estar solo en los días buenos, sino también ser tu equipo en los días difíciles. Y si volviera a ese instante, te lo pediría otra vez… sin pensarlo.">
+          <img src="img/imagen1.jpg" alt="Foto 1" loading="lazy">
+          <span class="badge">1</span>
+        </button>
+
+        <button class="tile" data-index="1" data-title="Tu sonrisa" data-text="Ese día te vi con esas flores y pensé: qué lindo verte recibir detalles… pero más lindo es lo que tú transmites. Tú haces que todo se vea más vivo: tu energía, tu risa, tu forma de mirar. Tu sonrisa no es solo una sonrisa; es mi lugar seguro, mi buena noticia del día. Y si pudiera elegir un momento para repetir, sería cualquiera donde tú estés así de feliz.">
+          <img src="img/imagen2.jpg" alt="Foto 2" loading="lazy">
+          <span class="badge">2</span>
+        </button>
+
+        <button class="tile" data-index="2" data-title="Una de las primeras citas" data-text="En esas primeras citas yo todavía estaba descubriéndote… pero mi corazón ya empezaba a reconocer algo: contigo me sentía en casa. No porque todo fuera perfecto, sino porque todo se sentía real. Tu presencia me daba calma, tu mirada me daba confianza, y tu forma de estar conmigo me hacía pensar 'esto vale la pena'. Ahí empezó a nacer ese 'nosotros'.">
+          <img src="img/imagen3.jpg" alt="Foto 3" loading="lazy">
+          <span class="badge">3</span>
+        </button>
+
+        <button class="tile" data-index="3" data-title="El primer 2pa2 con tus papas" data-text="La primera salida con tus papás me dejó un recuerdo muy bonito. Pensé que me iba a sentir nervioso, pero terminé sintiéndome en confianza y disfrutando el momento. Me gustó estar ahí, conocerlos y sentir que podía ser yo. aunque hubo un momento incómodo, lo que más me quedó fue esto: contigo todo se siente más tranquilo, como si incluso lo raro pasara rápido porque estamos juntos en el mismo equipo.">
+          <img src="img/imagen4.jpg" alt="Foto 4" loading="lazy">
+          <span class="badge">4</span>
+        </button>
+
+        <button class="tile" data-index="4" data-title="La primera ida a sab" data-text="Mi primera vez en Sabanalarga fue contigo, y por eso fue especial. Fuimos a ver el desfile de Navidad y yo solo pensaba en lo bonito que es compartir contigo cosas nuevas. Y me quedó claro algo: contigo cualquier lugar se siente como plan perfecto.">
+          <img src="img/imagen5.jpg" alt="Foto 5" loading="lazy">
+          <span class="badge">5</span>
+        </button>
+
+        <button class="tile" data-index="5" data-title="Tu grado" data-text="El día de tu grado fue precioso. Verte cumplir esa meta me hizo sentir demasiado orgullo. Te di flores porque quería que sintieras lo mucho que te admiro y lo feliz que me hace verte crecer. Ese recuerdo me queda como uno de los más bonitos contigo.">
+          <img src="img/imagen6.jpg" alt="Foto 6" loading="lazy">
+          <span class="badge">6</span>
+        </button>
+
+        <button class="tile" data-index="6" data-title="Primera salida con Mari" data-text="Nuestra primera salida con Mari fue demasiado linda. Fue la primera vez que nos dieron esa confianza y me hizo sentir muy bien. Mari se divirtió un montón jugando, y yo me quedé con ese recuerdo: nosotros cuidándola, riéndonos, y creando momentos bonitos en familia.">
+          <img src="img/imagen7.jpg" alt="Foto 7" loading="lazy">
+          <span class="badge">7</span>
+        </button>
+
+        <button class="tile" data-index="7" data-title="La primera ida al gym" data-text="Una de nuestras primeras idas al gym, cuando yo todavía estaba flaco y apenas nos estábamos conociendo mejor. Me encanta porque me recuerda lo simple: compartir tiempo contigo, reírnos y ir creando esa confianza que ahora se siente tan natural.">
+          <img src="img/imagen8.jpg" alt="Foto 8" loading="lazy">
+          <span class="badge">8</span>
+        </button>
+
+        <button class="tile" data-index="8" data-title="Primer cumpleaños" data-text="Este fue tu primer cumpleaños estando juntos, y yo estaba feliz. Fue la primera vez que te di rosas reales y ver tu cara valió todo. En Sabanalarga comimos con casi toda tu familia y me sentí en confianza. Y ese día también fue la primera vez que me quedé a dormir donde tu tío Bon… un recuerdo que guardo con mucho cariño.">
+          <img src="img/imagen9.jpg" alt="Foto 9" loading="lazy">
+          <span class="badge">9</span>
+        </button>
+
+        <button class="tile" data-index="9" data-title="Tus primitos" data-text="Después de la comida de tu cumpleaños estuvimos con tus primitos y fue demasiado chévere. Me cayeron bien y sentí que yo también les caí bien. Aunque al principio Jesús no me quería mucho, después todo fluyó, y José desde el comienzo siempre me habló.">
+          <img src="img/imagen10.jpg" alt="Foto 10" loading="lazy">
+          <span class="badge">10</span>
+        </button>
+
+        <button class="tile" data-index="10" data-title="Primera vez viendo al Junior campeon" data-text="Nuestra primera final viendo al Junior juntos… y qué final: ganamos de sobra y llegó la 12ª estrella. Ese día ganamos los tres: tú tus hamburguesas, yo tu compañía, y Junior el campeonato. Plan redondo. Pero lo que más me gustó fue vivirlo contigo: reírnos, comer, abrazarnos y quedarnos con esa energía de "qué bonito compartir esto". Junior ganó… pero yo también, porque estaba contigo.">
+          <img src="img/imagen11.jpg" alt="Foto 11" loading="lazy">
+          <span class="badge">11</span>
+        </button>
+
+        <button class="tile" data-index="11" data-title="Primera navidad juntos" data-text="Nuestra primera Navidad juntos fue muy especial, aunque en las fechas exactas con la familia no pudimos estar pegados todo el tiempo. Pero lo bonito es que los días antes y después sí tuvimos muchísimo tiempo juntos en Sabanalarga, y eso nos unió más: a nosotros y también a tu familia conmigo. Nos dimos regalos, nos compramos esas pijamas de Snoopy y nos reímos como niños. Diciembre fue increíble para los dos, de esos meses que uno guarda en el corazón porque se siente hogar.">
+          <img src="img/imagen12.jpg" alt="Foto 12" loading="lazy">
+          <span class="badge">12</span>
+        </button>
+      </main>
+
+      <div class="actions">
+        <a class="cta" href="carta.html">Siguiente sorpresa ✨</a>
       </div>
 
-      <button class="logout" id="logoutBtn" type="button">Cerrar sesión</button>
-    </header>
-
-    <main class="grid" aria-label="Álbum de 12 fotos">
-      <button class="tile" data-index="0" data-title="Nuestro inicio" data-text="Ese día te pedí que fueras mi novia porque me di cuenta de algo sencillo pero enorme: contigo todo se siente en calma. No era solo emoción, era certeza. Certeza de que quería cuidarte, respetarte y construir algo bonito a tu lado. Desde ese momento supe que no quería estar solo en los días buenos, sino también ser tu equipo en los días difíciles. Y si volviera a ese instante, te lo pediría otra vez… sin pensarlo.">
-        <img src="img/imagen1.jpg" alt="Foto 1" loading="lazy">
-        <span class="badge">1</span>
-      </button>
-
-      <button class="tile" data-index="1" data-title="Tu sonrisa" data-text="Ese día te vi con esas flores y pensé: qué lindo verte recibir detalles… pero más lindo es lo que tú transmites. Tú haces que todo se vea más vivo: tu energía, tu risa, tu forma de mirar. Tu sonrisa no es solo una sonrisa; es mi lugar seguro, mi buena noticia del día. Y si pudiera elegir un momento para repetir, sería cualquiera donde tú estés así de feliz.">
-        <img src="img/imagen2.jpg" alt="Foto 2" loading="lazy">
-        <span class="badge">2</span>
-      </button>
-
-      <button class="tile" data-index="2" data-title="Una de las primeras citas" data-text="En esas primeras citas yo todavía estaba descubriéndote… pero mi corazón ya empezaba a reconocer algo: contigo me sentía en casa. No porque todo fuera perfecto, sino porque todo se sentía real. Tu presencia me daba calma, tu mirada me daba confianza, y tu forma de estar conmigo me hacía pensar 'esto vale la pena'. Ahí empezó a nacer ese 'nosotros'.">
-        <img src="img/imagen3.jpg" alt="Foto 3" loading="lazy">
-        <span class="badge">3</span>
-      </button>
-
-      <button class="tile" data-index="3" data-title="El primer 2pa2 con tus papas" data-text="La primera salida con tus papás me dejó un recuerdo muy bonito. Pensé que me iba a sentir nervioso, pero terminé sintiéndome en confianza y disfrutando el momento. Me gustó estar ahí, conocerlos y sentir que podía ser yo. aunque hubo un momento incómodo, lo que más me quedó fue esto: contigo todo se siente más tranquilo, como si incluso lo raro pasara rápido porque estamos juntos en el mismo equipo.">
-        <img src="img/imagen4.jpg" alt="Foto 4" loading="lazy">
-        <span class="badge">4</span>
-      </button>
-
-      <button class="tile" data-index="4" data-title="La primera ida a sab" data-text="Mi primera vez en Sabanalarga fue contigo, y por eso fue especial. Fuimos a ver el desfile de Navidad y yo solo pensaba en lo bonito que es compartir contigo cosas nuevas. Y me quedó claro algo: contigo cualquier lugar se siente como plan perfecto.">
-        <img src="img/imagen5.jpg" alt="Foto 5" loading="lazy">
-        <span class="badge">5</span>
-      </button>
-
-      <button class="tile" data-index="5" data-title="Tu grado" data-text="El día de tu grado fue precioso. Verte cumplir esa meta me hizo sentir demasiado orgullo. Te di flores porque quería que sintieras lo mucho que te admiro y lo feliz que me hace verte crecer. Ese recuerdo me queda como uno de los más bonitos contigo.">
-        <img src="img/imagen6.jpg" alt="Foto 6" loading="lazy">
-        <span class="badge">6</span>
-      </button>
-
-      <button class="tile" data-index="6" data-title="Primera salida con Mari" data-text="Nuestra primera salida con Mari fue demasiado linda. Fue la primera vez que nos dieron esa confianza y me hizo sentir muy bien. Mari se divirtió un montón jugando, y yo me quedé con ese recuerdo: nosotros cuidándola, riéndonos, y creando momentos bonitos en familia.">
-        <img src="img/imagen7.jpg" alt="Foto 7" loading="lazy">
-        <span class="badge">7</span>
-      </button>
-
-      <button class="tile" data-index="7" data-title="La primera ida al gym" data-text="Una de nuestras primeras idas al gym, cuando yo todavía estaba flaco y apenas nos estábamos conociendo mejor. Me encanta porque me recuerda lo simple: compartir tiempo contigo, reírnos y ir creando esa confianza que ahora se siente tan natural.">
-        <img src="img/imagen8.jpg" alt="Foto 8" loading="lazy">
-        <span class="badge">8</span>
-      </button>
-
-      <button class="tile" data-index="8" data-title="Primer cumpleaños" data-text="Este fue tu primer cumpleaños estando juntos, y yo estaba feliz. Fue la primera vez que te di rosas reales y ver tu cara valió todo. En Sabanalarga comimos con casi toda tu familia y me sentí en confianza. Y ese día también fue la primera vez que me quedé a dormir donde tu tío Bon… un recuerdo que guardo con mucho cariño.">
-        <img src="img/imagen9.jpg" alt="Foto 9" loading="lazy">
-        <span class="badge">9</span>
-      </button>
-
-      <button class="tile" data-index="9" data-title="Tus primitos" data-text="Después de la comida de tu cumpleaños estuvimos con tus primitos y fue demasiado chévere. Me cayeron bien y sentí que yo también les caí bien. Aunque al principio Jesús no me quería mucho, después todo fluyó, y José desde el comienzo siempre me habló.">
-        <img src="img/imagen10.jpg" alt="Foto 10" loading="lazy">
-        <span class="badge">10</span>
-      </button>
-
-      <button class="tile" data-index="10" data-title="Primera vez viendo al Junior campeon" data-text="Nuestra primera final viendo al Junior juntos… y qué final: ganamos de sobra y llegó la 12ª estrella. Ese día ganamos los tres: tú tus hamburguesas, yo tu compañía, y Junior el campeonato. Plan redondo. Pero lo que más me gustó fue vivirlo contigo: reírnos, comer, abrazarnos y quedarnos con esa energía de "qué bonito compartir esto". Junior ganó… pero yo también, porque estaba contigo.">
-        <img src="img/imagen11.jpg" alt="Foto 11" loading="lazy">
-        <span class="badge">11</span>
-      </button>
-
-      <button class="tile" data-index="11" data-title="Primera navidad juntos" data-text="Nuestra primera Navidad juntos fue muy especial, aunque en las fechas exactas con la familia no pudimos estar pegados todo el tiempo. Pero lo bonito es que los días antes y después sí tuvimos muchísimo tiempo juntos en Sabanalarga, y eso nos unió más: a nosotros y también a tu familia conmigo. Nos dimos regalos, nos compramos esas pijamas de Snoopy y nos reímos como niños. Diciembre fue increíble para los dos, de esos meses que uno guarda en el corazón porque se siente hogar.">
-        <img src="img/imagen12.jpg" alt="Foto 12" loading="lazy">
-        <span class="badge">12</span>
-      </button>
-    </main>
-
-    <div class="actions">
-      <a class="cta" href="carta.html">Siguiente sorpresa ✨</a>
+      <footer>Tip: en el modal puedes cerrar con <b>Esc</b> o tocando afuera. Toca la carta para voltearla.</footer>
     </div>
 
-    <footer>Tip: en el modal puedes cerrar con <b>Esc</b> o tocando afuera. Toca la carta para voltearla.</footer>
-  </div>
-
-  <!-- Modal con carta TCG -->
-  <div class="modal" id="modal" hidden>
-    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-      <div class="panelTop">
-        <div class="hint">Toca afuera o presiona Esc para cerrar</div>
-        <div class="navBtns">
-          <button class="navBtn" id="prevBtn" aria-label="Anterior">←</button>
-          <button class="navBtn" id="nextBtn" aria-label="Siguiente">→</button>
-          <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
-        </div>
-      </div>
-
-      <div class="panelBody tcgBodyWrap">
-        <button class="tcgCard" id="tcgCard" type="button" aria-label="Voltear carta">
-          <div class="tcgInner" id="tcgInner">
-
-            <!-- FRENTE -->
-            <div class="tcgFace tcgFront">
-              <div class="tcgHeader">
-                <div class="tcgName" id="mTitle"></div>
-                <span class="tcgBadge" id="mBadge"></span>
-              </div>
-
-              <div class="tcgArt">
-                <img id="mImg" src="" alt="Foto ampliada">
-              </div>
-
-              <div class="tcgFooter">Toca para voltear ↻</div>
-            </div>
-
-            <!-- ATRÁS -->
-            <div class="tcgFace tcgBack">
-              <div class="tcgHeader back">
-                <div class="tcgName" id="mTitleBack"></div>
-                <span class="tcgBadge" id="mBadgeBack"></span>
-              </div>
-
-              <div class="tcgLore">
-                <p class="tcgText" id="mText"></p>
-              </div>
-
-              <div class="tcgFooter back">Toca para volver ↺</div>
-            </div>
-
+    <!-- Modal con carta TCG -->
+    <div class="modal" id="modal" hidden>
+      <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+        <div class="panelTop">
+          <div class="hint">Toca afuera o presiona Esc para cerrar</div>
+          <div class="navBtns">
+            <button class="navBtn" id="prevBtn" aria-label="Anterior">←</button>
+            <button class="navBtn" id="nextBtn" aria-label="Siguiente">→</button>
+            <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
           </div>
-        </button>
-      </div>
-    </div> <!-- cierra .panel -->
-  </div>   <!-- cierra .modal -->
+        </div>
 
-  <!-- Mantén este orden -->
-  <script src="page-transitions.js"></script>
-  <script src="index-modal.js"></script>
-  <script src="bg-particles.js"></script>
-  <script src="confetti.js"></script>
-</body>
-</html>
+        <div class="panelBody tcgBodyWrap">
+          <button class="tcgCard" id="tcgCard" type="button" aria-label="Voltear carta">
+            <div class="tcgInner" id="tcgInner">
+
+              <!-- FRENTE -->
+              <div class="tcgFace tcgFront">
+                <div class="tcgHeader">
+                  <div class="tcgName" id="mTitle"></div>
+                  <span class="tcgBadge" id="mBadge"></span>
+                </div>
+
+                <div class="tcgArt">
+                  <img id="mImg" src="" alt="Foto ampliada">
+                </div>
+
+                <div class="tcgFooter">Toca para voltear ↻</div>
+              </div>
+
+              <!-- ATRÁS -->
+              <div class="tcgFace tcgBack">
+                <div class="tcgHeader back">
+                  <div class="tcgName" id="mTitleBack"></div>
+                  <span class="tcgBadge" id="mBadgeBack"></span>
+                </div>
+
+                <div class="tcgLore">
+                  <p class="tcgText" id="mText"></p>
+                </div>
+
+                <div class="tcgFooter back">Toca para volver ↺</div>
+              </div>
+
+            </div>
+          </button>
+        </div>
+      </div> <!-- cierra .panel -->
+    </div>   <!-- cierra .modal -->
+
+    <!-- Mantén este orden -->
+    <script src="page-transitions.js"></script>
+    <script src="index-modal.js"></script>
+    <script src="bg-particles.js"></script>
+    <script src="confetti.js"></script>
+  </body>
+  </html>
