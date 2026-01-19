@@ -28,20 +28,75 @@
         </div>
       </div>
 
-      <button class="skip" id="skipBtn" type="button">Volver al álbum →</button>
+      <button class="skip" id="backBtn" type="button">Volver al álbum →</button>
     </div>
 
-    <div class="collage" id="collage" aria-label="Collage de Lula">
-      <!-- SOLO FOTOS (cambia los src por los tuyos) -->
-      <figure class="ph p1"><img src="img/lula1.jpg" alt="Lula 1" loading="eager"></figure>
-      <figure class="ph p2" style="--bgImg:url('img/lula2.jpg')"><img src="img/lula2.jpg" alt="Lula 2" loading="eager"></figure>
-      <figure class="ph p3" style="--bgImg:url('img/lula3.jpg')"><img src="img/lula3.jpg" alt="Lula 3" loading="eager"></figure>
-      <figure class="ph p4"><img src="img/lula4.jpg" alt="Lula 4" loading="eager"></figure>
-      <figure class="ph p5"><img src="img/lula5.jpg" alt="Lula 5" loading="eager"></figure>
-      <figure class="ph p6"><img src="img/lula6.jpg" alt="Lula 6" loading="eager"></figure>
-    </div>
+    <main class="grid" aria-label="Lula en fotos">
+      <button class="tile" type="button" data-src="img/lula1.jpg" aria-label="Abrir foto 1">
+        <div class="frame">
+          <img src="img/lula1.jpg" alt="Lula 1" loading="eager">
+          <span class="badge">1</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/lula2.jpg" aria-label="Abrir foto 2">
+        <div class="frame">
+          <img src="img/lula2.jpg" alt="Lula 2" loading="eager">
+          <span class="badge">2</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/lula3.jpg" aria-label="Abrir foto 3">
+        <div class="frame">
+          <img src="img/lula3.jpg" alt="Lula 3" loading="eager">
+          <span class="badge">3</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/lula4.jpg" aria-label="Abrir foto 4">
+        <div class="frame">
+          <img src="img/lula4.jpg" alt="Lula 4" loading="eager">
+          <span class="badge">4</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/lula5.jpg" aria-label="Abrir foto 5">
+        <div class="frame">
+          <img src="img/lula5.jpg" alt="Lula 5" loading="eager">
+          <span class="badge">5</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/lula6.jpg" aria-label="Abrir foto 6">
+        <div class="frame">
+          <img src="img/lula6.jpg" alt="Lula 6" loading="eager">
+          <span class="badge">6</span>
+        </div>
+      </button>
+    </main>
 
     <div class="foot">🐾</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" hidden>
+    <div class="panel" role="dialog" aria-modal="true" aria-label="Foto">
+      <div class="panelTop">
+        <div class="hint">Esc para cerrar · ← → para navegar</div>
+        <div class="navBtns">
+          <button class="navBtn" id="prevBtn" type="button" aria-label="Anterior">←</button>
+          <button class="navBtn" id="nextBtn" type="button" aria-label="Siguiente">→</button>
+          <button class="close" id="closeBtn" type="button" aria-label="Cerrar">✕</button>
+        </div>
+      </div>
+
+      <div class="panelBody">
+        <div class="viewerFrame">
+          <img id="mImg" class="viewerImg" src="" alt="Foto ampliada">
+          <span class="viewerBadge" id="mBadge"></span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="lula.js"></script>
