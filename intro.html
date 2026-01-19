@@ -27,24 +27,76 @@
         </div>
       </div>
 
-      <button class="skip" id="skipBtn" type="button">Saltar →</button>
+      <button class="skip" id="skipBtn" type="button">Entrar al álbum →</button>
     </div>
 
-    <div class="collage" id="collage" aria-label="Collage de fotos">
-      <!-- Cambia los src por tus fotos -->
-      <figure class="ph p1" data-caption=><img src="img/taly1.jpg" alt="Taly 1" loading="eager"></figure>
-      <figure class="ph p2" data-caption="La calma que se siente contigo 💛"><img src="img/taly2.jpg" alt="Taly 2" loading="eager"></figure>
-      <figure class="ph p3" data-caption="Tu luz cambia el día 🌷"><img src="img/taly3.jpg" alt="Taly 3" loading="eager"></figure>
-      <figure class="ph p4" data-caption="Fuerte, noble y auténtica 🔥"><img src="img/taly4.jpg" alt="Taly 4" loading="eager"></figure>
-      <figure class="ph p5" data-caption="Contigo todo se siente hogar 🫶"><img src="img/taly5.jpg" alt="Taly 5" loading="eager"></figure>
-      <figure class="ph p6" data-caption="Mi persona favorita del mundo 🥹"><img src="img/taly6.jpg" alt="Taly 6" loading="eager"></figure>
-      <div class="tag t1">✨ Luz</div>
-      <div class="tag t2">💛 Nobleza</div>
-      <div class="tag t3">🌷 Dulzura</div>
-      <div class="tag t4">🔥 Fuerza</div>
-    </div>
+    <!-- GRID tipo album -->
+    <main class="grid" aria-label="Taly en 6 fotos">
+      <button class="tile" type="button" data-src="img/taly1.jpg" aria-label="Abrir foto 1">
+        <div class="frame">
+          <img src="img/taly1.jpg" alt="Taly 1" loading="eager">
+          <span class="badge">1</span>
+        </div>
+      </button>
 
-    <div class="foot">Entrando al álbum…</div>
+      <button class="tile" type="button" data-src="img/taly2.jpg" aria-label="Abrir foto 2">
+        <div class="frame">
+          <img src="img/taly2.jpg" alt="Taly 2" loading="eager">
+          <span class="badge">2</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/taly3.jpg" aria-label="Abrir foto 3">
+        <div class="frame">
+          <img src="img/taly3.jpg" alt="Taly 3" loading="eager">
+          <span class="badge">3</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/taly4.jpg" aria-label="Abrir foto 4">
+        <div class="frame">
+          <img src="img/taly4.jpg" alt="Taly 4" loading="eager">
+          <span class="badge">4</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/taly5.jpg" aria-label="Abrir foto 5">
+        <div class="frame">
+          <img src="img/taly5.jpg" alt="Taly 5" loading="eager">
+          <span class="badge">5</span>
+        </div>
+      </button>
+
+      <button class="tile" type="button" data-src="img/taly6.jpg" aria-label="Abrir foto 6">
+        <div class="frame">
+          <img src="img/taly6.jpg" alt="Taly 6" loading="eager">
+          <span class="badge">6</span>
+        </div>
+      </button>
+    </main>
+
+    <div class="foot">Tip: toca una foto para abrirla ✨</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" hidden>
+    <div class="panel" role="dialog" aria-modal="true" aria-label="Foto">
+      <div class="panelTop">
+        <div class="hint">Esc para cerrar · ← → para navegar</div>
+        <div class="navBtns">
+          <button class="navBtn" id="prevBtn" type="button" aria-label="Anterior">←</button>
+          <button class="navBtn" id="nextBtn" type="button" aria-label="Siguiente">→</button>
+          <button class="close" id="closeBtn" type="button" aria-label="Cerrar">✕</button>
+        </div>
+      </div>
+
+      <div class="panelBody">
+        <div class="viewerFrame">
+          <img id="mImg" class="viewerImg" src="" alt="Foto ampliada">
+          <span class="viewerBadge" id="mBadge"></span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="intro.js"></script>
