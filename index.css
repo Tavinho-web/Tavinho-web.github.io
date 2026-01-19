@@ -74,6 +74,38 @@ h1{
 }
 .sub{ margin:6px 0 0; color:var(--muted); font-size: 14px; }
 
+/* ✅ AÑADIDO: contenedor de acciones del header */
+.headerActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap: wrap;
+}
+
+/* ✅ AÑADIDO: botón "Taly" estilo CTA (como "Siguiente sorpresa") */
+.talyBtn{
+  text-decoration:none;
+  color: rgba(10,10,20,.92);
+  font-weight: 900;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(34,211,238,.95));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow: 0 18px 40px rgba(0,0,0,.30);
+  transition: transform .15s ease, filter .15s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space: nowrap;
+}
+.talyBtn:hover{ transform: translateY(-2px); filter: brightness(1.05); }
+.talyBtn:active{ transform: translateY(0); }
+.talyBtn:focus-visible{
+  outline:none;
+  box-shadow: 0 0 0 3px var(--ring), 0 18px 40px rgba(0,0,0,.30);
+}
+
 .grid{
   display:grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -398,6 +430,12 @@ body::after{
   header{
     align-items: flex-start;
     gap: 10px;
+  }
+
+  /* ✅ AÑADIDO: acciones del header mejor en móvil */
+  .headerActions{
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -1078,4 +1116,80 @@ body::after{
 .tcgCard{
   position: relative;
   z-index: 1;
+}
+
+/* ===== INTRO: ocultar descripciones/etiquetas SOLO en intro ===== */
+body.introPage :is(.tile,.shot,.photo,.card) :is(
+  .badge,
+  .caption,
+  .captionBar,
+  .desc,
+  .label,
+  .tag,
+  .chip,
+  .pill,
+  .topTag,
+  .cornerTag,
+  .meta,
+  .overlayText
+){
+  display: none !important;
+}
+
+/* Si el texto se dibuja con ::after/::before usando attr(data-*) */
+body.introPage :is(.tile,.shot,.photo,.card)::after,
+body.introPage :is(.tile,.shot,.photo,.card)::before{
+  content: "" !important;
+}
+
+/* =========================================================
+   INTRO: dejar SOLO imagenes (oculta TODO excepto img)
+   No afecta album.html porque esta scoping a .introPage
+   ========================================================= */
+
+body.introPage .grid > *,
+body.introPage .collage > *,
+body.introPage .masonry > *,
+body.introPage .introGrid > *{
+  position: relative;
+}
+
+/* En cada tarjeta/tile del intro: oculta TODO menos la imagen */
+body.introPage .grid > * > :not(img),
+body.introPage .collage > * > :not(img),
+body.introPage .masonry > * > :not(img),
+body.introPage .introGrid > * > :not(img){
+  display: none !important;
+}
+
+/* Por si el texto/etiquetas est�n como overlays ABSOLUTE dentro (divs/spans/etc) */
+body.introPage .grid > * *:not(img),
+body.introPage .collage > * *:not(img),
+body.introPage .masonry > * *:not(img),
+body.introPage .introGrid > * *:not(img){
+  display: none !important;
+}
+
+/* Por si los textos est�n en ::before/::after */
+body.introPage .grid > *::before,
+body.introPage .grid > *::after,
+body.introPage .collage > *::before,
+body.introPage .collage > *::after,
+body.introPage .masonry > *::before,
+body.introPage .masonry > *::after,
+body.introPage .introGrid > *::before,
+body.introPage .introGrid > *::after{
+  content: "" !important;
+  display: none !important;
+}
+
+/* Asegura que la imagen se siga viendo igual */
+body.introPage .grid > * > img,
+body.introPage .collage > * > img,
+body.introPage .masonry > * > img,
+body.introPage .introGrid > * > img{
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
 }
