@@ -1,0 +1,137 @@
+.reviewCard {
+  margin-bottom: 16px;
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px rgba(0,0,0,.18);
+  color: var(--text);
+}
+
+.reviewCard h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  letter-spacing: .2px;
+}
+
+.reviewCard p {
+  margin: 0;
+  line-height: 1.7;
+  color: rgba(255,255,255,.9);
+}
+
+.reviewCard .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.reviewCard .tag {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  color: rgba(255,255,255,.88);
+  font-size: 13px;
+}
+
+#registroForm {
+  display: grid;
+  gap: 14px;
+}
+
+#registroForm label {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+}
+
+#registroForm input,
+#registroForm textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  resize: vertical;
+  font: inherit;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+#registroForm input:focus,
+#registroForm textarea:focus {
+  border-color: rgba(255,255,255,.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+#registroForm button {
+  width: min(240px, 100%);
+}
+
+#listaRestaurantes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#listaRestaurantes li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 720px) {
+  .reviewCard {
+    padding: 18px;
+  }
+}
+
+/* ===== Estilos para Sliders de Calificación ===== */
+.calificaciones-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.slider-container label {
+    display: block;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 10px;
+}
+
+.valor-dinamico {
+    font-weight: 900;
+    color: #22d3ee; /* Color cyan de tu paleta para resaltar el número */
+    font-size: 16px;
+}
+
+/* La pista (fondo de la barra) */
+.slider-taly {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    outline: none;
+}
+
+/* El botón deslizable (Thumb) */
+.slider-taly::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff4fd8, #22d3ee);
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+    transition: transform 0.1s ease;
+}
+
+.slider-taly::-webkit-slider-thumb:hover {
+    transform: scale(1.2); /* Crece un poquito al pasar el mouse */
+}
