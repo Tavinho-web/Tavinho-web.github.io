@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nuestra Ruta Gastronómica 🍔</title>
+    
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+    <script>
+      (function(){
+        if (localStorage.getItem("taly_access") !== "ok") {
+          location.replace("index.html");
+        }
+      })();
+    </script>
+
+    <div class="wrap">
+        <header>
+            <div>
+                <h1>Nuestra Ruta Gastronómica 🍔</h1>
+                <p class="sub">Calificando cada lugar juntos.</p>
+            </div>
+            <div class="headerActions">
+                <a class="talyBtn" href="album.html">← Volver al álbum</a>
+            </div>
+        </header>
+
+        <div style="background: rgba(255,255,255,0.06); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
+            <form id="registroForm">
+                <label>
+                    Nombre del lugar
+                    <input id="nombreRestaurante" type="text" placeholder="Ej. Burger House" required maxlength="60">
+                </label>
+                <label>
+                    ¿Qué te gustó?
+                    <textarea id="comentarios" placeholder="¿Qué tal estuvo la comida? ¿Qué pedimos?" rows="4"></textarea>
+                </label>
+                <div class="calificaciones-wrapper">
+                    <div class="slider-container">
+                        <label for="califTavo">Calificación de Tavo: <span id="valTavo" class="valor-dinamico">5.0</span>/10</label>
+                        <input type="range" id="califTavo" min="1" max="10" step="0.1" value="5.0" class="slider-taly">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label for="califTaly">Calificación de Taly: <span id="valTaly" class="valor-dinamico">5.0</span>/10</label>
+                        <input type="range" id="califTaly" min="1" max="10" step="0.1" value="5.0" class="slider-taly">
+                    </div>
+                </div>
+                <button class="talyBtn" type="submit">Agregar reseña</button>
+            </form>
+            
+            <ul id="listaRestaurantes" style="margin-top: 20px;"></ul>
+        </div>
+    </div>
+
+    <script src="page-transitions.js"></script>
+    <script type="module" src="restaurantes.js"></script>
+</body>
+</html>
