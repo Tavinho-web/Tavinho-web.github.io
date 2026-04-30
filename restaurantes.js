@@ -86,7 +86,15 @@ onSnapshot(q, (snapshot) => {
                     className: colorClase // Aplicamos la clase según el promedio
                 })
             }).addTo(map)
-              .bindPopup(`<b style="color:black">${res.nombre}</b><br>⭐ Promedio: ${prom.toFixed(1)}`);
+              .bindPopup(`
+                <div style="text-align: center;">
+                    <b style="color:black; font-size: 14px;">${res.nombre}</b><br>
+                    <button onclick="activarCorreccionManual('${res.id}', '${res.nombre.replace(/'/g, "\\'")}')" 
+                            style="margin-top: 8px; background: #22d3ee; border: none; padding: 5px 10px; border-radius: 5px; color: white; cursor: pointer; font-size: 11px; font-weight: bold;">
+                        📍 Corregir ubicación
+                    </button>
+                </div>
+              `);
             
             marcadoresActuales.push(pin);
         }
@@ -130,6 +138,47 @@ function renderizarTarjeta(restaurante) {
     `;
     listaRestaurantes.appendChild(li);
 }
+
+// Función global para que el botón del popup la encuentre
+window.activarCorreccionManual = function(id, nombre) {
+    map.closePopup();
+
+    Swal.fire({
+        title: 'Modo Corrección',
+        text: `Toca en el mapa el lugar exacto para "${nombre}"`,
+        icon: 'info',
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000
+    });
+
+    document.getElementById('map').style.cursor = 'crosshair';
+
+    map.once('click', async (e) => {
+        const { lat, lng } = e.latlng;
+
+        try {
+            const docRef = doc(db, "restaurantes", id);
+            await updateDoc(docRef, {
+                lat: lat,
+                lng: lng
+            });
+
+            Swal.fire({
+                title: '¡Ubicación actualizada!',
+                text: 'El pin se ha movido correctamente.',
+                icon: 'success',
+                timer: 2000
+            });
+        } catch (error) {
+            console.error("Error al corregir ubicación:", error);
+            Swal.fire('Error', 'No se pudo actualizar la posición.', 'error');
+        } finally {
+            document.getElementById('map').style.cursor = '';
+        }
+    });
+};
 
 // --- GUARDAR CON BUSQUEDA AUTOMÁTICA ---
 form.addEventListener('submit', async (e) => {
