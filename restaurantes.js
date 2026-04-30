@@ -151,35 +151,54 @@ form.addEventListener('submit', async (e) => {
     };
 
     try {
-        // Ahora buscamos usando la dirección exacta
-        // Nominatim funciona mucho mejor con direcciones que con nombres de negocios
         const respuesta = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccion)}`);
         const resultados = await respuesta.json();
 
         if (resultados.length > 0) {
             datos.lat = parseFloat(resultados[0].lat);
             datos.lng = parseFloat(resultados[0].lon);
+            await guardarEnFirebase(datos);
         } else {
-            alert("No pudimos encontrar esa dirección exacta. El registro se guardará sin pin.");
+            // --- MODO MANUAL ACTIVADO ---
+            Swal.fire({
+                title: '📍 Ubicación no encontrada',
+                text: 'No hallamos la dirección. Por favor, toca en el mapa el lugar exacto del restaurante.',
+                icon: 'info',
+                confirmButtonColor: '#22d3ee'
+            });
+
+            map.once('click', async (event) => {
+                const { lat, lng } = event.latlng;
+                datos.lat = lat;
+                datos.lng = lng;
+                
+                const tempMarker = L.marker([lat, lng]).addTo(map);
+                
+                await guardarEnFirebase(datos);
+                
+                Swal.fire('¡Listo!', 'Ubicación guardada manualmente.', 'success');
+                map.removeLayer(tempMarker);
+            });
         }
-
-        if (editId) {
-            await updateDoc(doc(db, "restaurantes", editId), datos);
-            editId = null;
-        } else {
-            await addDoc(restaurantesRef, datos);
-        }
-
-        form.reset();
-        btnSubmit.textContent = "¡Guardado con éxito! ✨";
-        setTimeout(() => { btnSubmit.textContent = "Agregar reseña"; btnSubmit.disabled = false; }, 2000);
-
     } catch (error) {
-        console.error("Error:", error);
+        console.error(error);
         btnSubmit.disabled = false;
         btnSubmit.textContent = "Agregar reseña";
     }
 });
+
+// Función auxiliar para no repetir código
+async function guardarEnFirebase(datos) {
+    if (editId) {
+        await updateDoc(doc(db, "restaurantes", editId), datos);
+        editId = null;
+    } else {
+        await addDoc(restaurantesRef, datos);
+    }
+    form.reset();
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = "Agregar reseña";
+}
 
 // ====== ESCUCHADOR DE CLICS (EDITAR Y ELIMINAR) ======
 listaRestaurantes.addEventListener('click', async (e) => {
