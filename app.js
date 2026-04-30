@@ -1,4 +1,4 @@
-﻿// Seleccionamos los elementos principales
+// Seleccionamos los elementos principales
 const form = document.getElementById('registroForm');
 const listaRestaurantes = document.getElementById('listaRestaurantes');
 const btnSubmit = form.querySelector('button[type="submit"]');
