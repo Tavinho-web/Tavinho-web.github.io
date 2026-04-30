@@ -35,12 +35,102 @@ const inputTavo = document.getElementById('califTavo');
 const spanTavo = document.getElementById('valTavo');
 const inputTaly = document.getElementById('califTaly');
 const spanTaly = document.getElementById('valTaly');
+const btnIncognito = document.getElementById('btnIncognito');
 
 let editId = null;
 
 // ACTUALIZAR TEXTO SLIDERS
 inputTavo.addEventListener('input', (e) => spanTavo.textContent = parseFloat(e.target.value).toFixed(1));
 inputTaly.addEventListener('input', (e) => spanTaly.textContent = parseFloat(e.target.value).toFixed(1));
+
+// --- CHECK-IN INCÓGNITO ---
+btnIncognito.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+        alert("Tu navegador no soporta geolocalización");
+        return;
+    }
+
+    btnIncognito.textContent = "⌛";
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+        const checkIn = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            fecha: new Date().toISOString(),
+            completado: false
+        };
+
+        let borradores = JSON.parse(localStorage.getItem('borradores_gastro') || "[]");
+        borradores.push(checkIn);
+        localStorage.setItem('borradores_gastro', JSON.stringify(borradores));
+
+        try {
+            await addDoc(collection(db, "checkins_pendientes"), checkIn);
+
+            Swal.fire({
+                title: '🕵️‍♂️ Modo Incógnito Activo',
+                text: 'Ubicación capturada. ¡Disfruten la comida! Te recordaré calificar después.',
+                icon: 'success',
+                background: '#1a1c2c',
+                color: '#fff',
+                confirmButtonColor: '#22d3ee'
+            });
+        } catch (e) {
+            console.log("Sin internet, guardado localmente");
+        }
+
+        btnIncognito.textContent = "🕵️‍♂️";
+
+        setTimeout(() => {
+            lanzarRecordatorio(checkIn);
+        }, 3600000);
+    }, () => {
+        alert("No pudimos obtener tu ubicación");
+        btnIncognito.textContent = "🕵️‍♂️";
+    });
+});
+
+function lanzarRecordatorio(checkIn) {
+    Swal.fire({
+        title: '🔔 ¡Hora de la Crítica!',
+        text: 'Hace una hora estuviste en una ubicación nueva. ¿Qué tal estuvo la comida?',
+        showCancelButton: true,
+        confirmButtonText: 'Hacer reseña ahora',
+        cancelButtonText: 'Después',
+        confirmButtonColor: '#ff4fd8'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formSection = document.getElementById('registroForm');
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            console.log("Cargando coordenadas:", checkIn.lat, checkIn.lng);
+        }
+    });
+}
+
+window.addEventListener('online', async () => {
+    const borradores = JSON.parse(localStorage.getItem('borradores_gastro') || "[]");
+    if (borradores.length > 0) {
+        console.log("Reconexión detectada. Sincronizando borradores con Firebase...");
+
+        const pendientes = [...borradores];
+        localStorage.removeItem('borradores_gastro');
+
+        for (const item of pendientes) {
+            try {
+                await addDoc(collection(db, "checkins_pendientes"), item);
+            } catch (error) {
+                console.error("Error sincronizando borrador:", error);
+                borradores.push(item);
+            }
+        }
+
+        if (borradores.length > 0) {
+            localStorage.setItem('borradores_gastro', JSON.stringify(borradores));
+        }
+    }
+});
 
 // --- ESCUCHAR FIREBASE Y PINTAR PINES ---
 const q = query(restaurantesRef, orderBy("nombre", "asc"));
@@ -430,3 +520,4 @@ btnRuleta.addEventListener('click', () => {
         if (marcador) marcador.openPopup();
     }, 1600);
 });
+
