@@ -101,6 +101,7 @@ onSnapshot(q, (snapshot) => {
     });
 
     actualizarEstadisticas(restaurantes);
+    calcularSincronia(restaurantes);
 });
 
 // ====== FUNCIÓN PARA PINTAR LAS TARJETAS ======
@@ -337,6 +338,40 @@ function actualizarEstadisticas(data) {
             </div>
         `;
     });
+}
+
+function calcularSincronia(data) {
+    if (data.length === 0) return;
+
+    let sumaTavo = 0;
+    let sumaTaly = 0;
+    let sumaDiferencias = 0;
+
+    data.forEach(res => {
+        sumaTavo += res.califTavo;
+        sumaTaly += res.califTaly;
+        sumaDiferencias += Math.abs(res.califTavo - res.califTaly);
+    });
+
+    const promTavo = (sumaTavo / data.length).toFixed(1);
+    const promTaly = (sumaTaly / data.length).toFixed(1);
+    const diferenciaPromedio = sumaDiferencias / data.length;
+    const porcentajeSincronia = Math.max(0, 100 - (diferenciaPromedio * 11)).toFixed(0);
+
+    document.getElementById('porcentajeSincronia').textContent = `${porcentajeSincronia}%`;
+    document.getElementById('promTavo').textContent = promTavo;
+    document.getElementById('promTaly').textContent = promTaly;
+
+    let mensaje = "";
+    if (porcentajeSincronia > 90) mensaje = "¡Son almas gemelas culinarias! Piensan igual. 😍";
+    else if (porcentajeSincronia > 70) mensaje = "Tienen gustos muy similares, ¡buen equipo! 🍕";
+    else if (porcentajeSincronia > 50) mensaje = "A veces no se ponen de acuerdo, pero hay amor. 😅";
+    else mensaje = "¡Aquí hubo pelea! Tienen gustos muy diferentes. 🚩";
+    
+    document.getElementById('mensajeSincronia').textContent = mensaje;
+
+    const juez = promTavo < promTaly ? "Tavo es el juez más exigente 🧐" : "Taly es la jueza más exigente 💅";
+    document.getElementById('juezDuro').textContent = `🏆 ${juez}`;
 }
 
 // ====== BOTÓN DE RULETA ======
