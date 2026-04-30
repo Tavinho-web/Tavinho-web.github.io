@@ -7,7 +7,8 @@
     
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -36,6 +37,10 @@
                     Nombre del lugar
                     <input id="nombreRestaurante" type="text" placeholder="Ej. Burger House" required maxlength="60">
                 </label>
+                <div class="input-group">
+                    <label for="direccionRestaurante">Dirección (Ej: Calle 84 # 52-76, Barranquilla)</label>
+                    <input type="text" id="direccionRestaurante" placeholder="Escribe la dirección exacta..." required>
+                </div>
                 <label>
                     ¿Qué te gustó?
                     <textarea id="comentarios" placeholder="¿Qué tal estuvo la comida? ¿Qué pedimos?" rows="4"></textarea>
@@ -53,12 +58,72 @@
                 </div>
                 <button class="talyBtn" type="submit">Agregar reseña</button>
             </form>
+
+            <div id="map" style="height: 350px; border-radius: 20px; margin: 20px 0; border: 2px solid rgba(255,255,255,0.1); z-index: 1;"></div>
+            
+            <details style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 15px; margin-bottom: 25px; color: white;">
+                <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #22d3ee;">
+                    📊 Ver nuestras estadísticas (Spotify Wrapped)
+                </summary>
+                
+                <div id="statsContent" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <div class="stat-card">
+                        <span style="display:block; opacity:0.7; font-size: 0.8rem;">Sitios Visitados</span>
+                        <strong id="totalVisitados" style="font-size: 1.5rem; color: #ff4fd8;">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span style="display:block; opacity:0.7; font-size: 0.8rem;">Promedio General</span>
+                        <strong id="promedioGral" style="font-size: 1.5rem; color: #ff4fd8;">0.0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span style="display:block; opacity:0.7; font-size: 0.8rem;">El Favorito 🏆</span>
+                        <p id="elFavorito" style="font-size: 0.9rem; margin:0; font-weight:bold;">---</p>
+                    </div>
+                    <div class="stat-card">
+                        <span style="display:block; opacity:0.7; font-size: 0.8rem;">El "No Vuelvo" 🚩</span>
+                        <p id="elPeor" style="font-size: 0.9rem; margin:0; font-weight:bold;">---</p>
+                    </div>
+                </div>
+
+                <!-- Sección Top 3 -->
+                <div style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                    <h4 style="margin: 0 0 10px 0; color: #22d3ee;">🥇 Top 3 Restaurantes</h4>
+                    <div id="top3Lista" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                </div>
+            </details>
+            
+            <div style="margin-bottom: 20px;">
+                <input type="text" id="buscador" placeholder="🔍 Buscar restaurante por nombre..." 
+                style="width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: white; outline: none;">
+            </div>
             
             <ul id="listaRestaurantes" style="margin-top: 20px;"></ul>
         </div>
     </div>
 
     <script src="page-transitions.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="restaurantes.js"></script>
+
+    <!-- Botón Flotante de Ruleta -->
+    <button id="btnRuleta" style="
+        position: fixed; 
+        bottom: 30px; 
+        right: 30px; 
+        width: 70px; 
+        height: 70px; 
+        border-radius: 50%; 
+        background: linear-gradient(135deg, #ff4fd8, #22d3ee); 
+        border: none; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+        cursor: pointer; 
+        z-index: 1000; 
+        font-size: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        🎲
+    </button>
 </body>
 </html>
