@@ -9,7 +9,25 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>document.documentElement.classList.add('js');</script>
+    
+    <!-- Manifiesto para PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Configuración para iOS (iPhone) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon.png">
+    
+    <script>
+      document.documentElement.classList.add('js');
+      
+      // Registrar el Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Registro de SW exitoso', reg))
+          .catch(err => console.warn('Error al registrar SW', err));
+      }
+    </script>
 </head>
 <body>
     <script>
